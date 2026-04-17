@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import DisplayNameForm from "@/components/DisplayNameForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "My Submissions" };
@@ -16,6 +17,12 @@ export default async function ProfilePage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/auth/login");
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("display_name")
+    .eq("id", user.id)
+    .single();
+
   const { data: contributions } = await supabase
     .from("contributions")
     .select("id, school_id, data, status, created_at, reviewed_at, reviewer_notes, schools(slug)")
@@ -28,9 +35,17 @@ export default async function ProfilePage() {
 
         <div className="mb-6">
           <p className="font-mono text-xs text-[#457B9D] uppercase tracking-widest mb-1">Account</p>
-          <h1 className="font-display text-2xl font-bold text-[#1D3557]">My Submissions</h1>
+          <h1 className="font-display text-2xl font-bold text-[#1D3557]">My Profile</h1>
           <p className="text-sm text-gray-500 mt-1">{user.email}</p>
         </div>
+
+        <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm mb-6">
+          <h2 className="font-display font-semibold text-[#1D3557] text-sm uppercase tracking-wider mb-3">Display name</h2>
+          <p className="text-xs text-gray-400 mb-3">Shown on your reviews. Leave blank to appear as Anonymous.</p>
+          <DisplayNameForm current={profile?.display_name ?? null} />
+        </div>
+
+        <h2 className="font-display font-semibold text-[#1D3557] text-sm uppercase tracking-wider mb-3">My Submissions</h2>
 
         {!contributions?.length ? (
           <div className="bg-white rounded-xl border border-gray-200 p-12 text-center shadow-sm space-y-3">
