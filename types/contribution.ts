@@ -13,6 +13,15 @@ export interface ContributionData {
   description?: string | null;
   certifications?: string[];
   fleet?: string[];
+  specialties?: string[];
+  gi_bill?: boolean;
+  intro_flight?: boolean;
+  ground_school?: boolean;
+  financing?: boolean;
+  simulator?: boolean;
+  simulator_notes?: string | null;
+  founded_year?: number | null;
+  hours?: string | null;
 }
 
 export interface Contribution {

@@ -2,14 +2,17 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { CERT_OPTIONS, US_STATES } from "@/lib/constants";
+import { CERT_OPTIONS, SPECIALTY_OPTIONS, US_STATES } from "@/lib/constants";
 
 interface SchoolData {
   name: string; address: string; city: string; state: string; zip: string;
   airport_id: string;
   part_61: boolean; part_141: boolean;
   website: string; phone: string; email: string; description: string;
-  certifications: string[]; fleet: string[];
+  certifications: string[]; fleet: string[]; specialties: string[];
+  gi_bill: boolean; intro_flight: boolean; ground_school: boolean;
+  financing: boolean; simulator: boolean; simulator_notes: string;
+  founded_year: string; hours: string;
 }
 
 const empty: SchoolData = {
@@ -17,7 +20,10 @@ const empty: SchoolData = {
   airport_id: "",
   part_61: false, part_141: false,
   website: "", phone: "", email: "", description: "",
-  certifications: [], fleet: [],
+  certifications: [], fleet: [], specialties: [],
+  gi_bill: false, intro_flight: false, ground_school: false,
+  financing: false, simulator: false, simulator_notes: "",
+  founded_year: "", hours: "",
 };
 
 const inputClass =
@@ -56,6 +62,15 @@ export default function ContributionForm({
     }));
   }
 
+  function toggleSpecialty(val: string) {
+    setForm((prev) => ({
+      ...prev,
+      specialties: prev.specialties.includes(val)
+        ? prev.specialties.filter((s) => s !== val)
+        : [...prev.specialties, val],
+    }));
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -66,7 +81,14 @@ export default function ContributionForm({
     const res = await fetch("/api/contributions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ school_id: schoolId ?? null, data: { ...form, fleet } }),
+      body: JSON.stringify({
+        school_id: schoolId ?? null,
+        data: {
+          ...form,
+          fleet,
+          founded_year: form.founded_year ? parseInt(form.founded_year, 10) : null,
+        },
+      }),
     });
 
     const data = await res.json();
@@ -277,6 +299,87 @@ export default function ContributionForm({
             className={inputClass}
           />
           <p className="text-xs text-gray-400 mt-1">Comma-separated list</p>
+        </div>
+      </div>
+
+      {/* Services */}
+      <div className={sectionClass}>
+        <h2 className="font-display font-semibold text-[#1D3557] text-base border-b border-gray-100 pb-3 -mt-1">
+          Services & features
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          {([
+            { key: "intro_flight" as const, label: "Intro / discovery flight" },
+            { key: "ground_school" as const, label: "Ground school on-site" },
+            { key: "simulator" as const, label: "Simulator" },
+            { key: "gi_bill" as const, label: "GI Bill / VA approved" },
+            { key: "financing" as const, label: "Financing available" },
+          ] as const).map(({ key, label }) => (
+            <label key={key} className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox" checked={form[key]}
+                onChange={(e) => set(key, e.target.checked)}
+                className="w-4 h-4 rounded accent-[#1D3557]"
+              />
+              <span className="text-sm text-[#1D3557]">{label}</span>
+            </label>
+          ))}
+        </div>
+        {form.simulator && (
+          <div className="mt-3">
+            <label className={labelClass}>Simulator type <span className="font-normal text-gray-400">(optional)</span></label>
+            <input
+              value={form.simulator_notes}
+              onChange={(e) => set("simulator_notes", e.target.value)}
+              maxLength={100}
+              placeholder="e.g. Redbird MCX, Frasca 141"
+              className={inputClass}
+            />
+          </div>
+        )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
+          <div>
+            <label className={labelClass}>Year founded <span className="font-normal text-gray-400">(optional)</span></label>
+            <input
+              type="number" value={form.founded_year}
+              onChange={(e) => set("founded_year", e.target.value)}
+              min={1900} max={new Date().getFullYear()}
+              placeholder="e.g. 1978"
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Hours of operation <span className="font-normal text-gray-400">(optional)</span></label>
+            <input
+              value={form.hours}
+              onChange={(e) => set("hours", e.target.value)}
+              maxLength={200}
+              placeholder="e.g. Mon–Sat 8am–6pm"
+              className={inputClass}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Specialties */}
+      <div className={sectionClass}>
+        <h2 className="font-display font-semibold text-[#1D3557] text-base border-b border-gray-100 pb-3 -mt-1">
+          Advanced training
+        </h2>
+        <div className="flex flex-wrap gap-2">
+          {SPECIALTY_OPTIONS.map(({ value, label }) => (
+            <button
+              key={value} type="button"
+              onClick={() => toggleSpecialty(value)}
+              className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-colors ${
+                form.specialties.includes(value)
+                  ? "bg-[#1D3557] text-[#F1FAEE] border-[#1D3557]"
+                  : "bg-white text-[#457B9D] border-[#A8DADC] hover:border-[#457B9D]"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
         </div>
       </div>
 

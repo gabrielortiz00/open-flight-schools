@@ -77,25 +77,34 @@ export async function PATCH(
   const d = c.data;
   const isEdit = !!c.school_id;
 
+  const schoolFields = {
+    name: d.name,
+    address: d.address,
+    city: d.city,
+    state: d.state,
+    zip: d.zip,
+    airport_id: d.airport_id || null,
+    part_61: d.part_61,
+    part_141: d.part_141,
+    website: d.website || null,
+    phone: d.phone || null,
+    email: d.email || null,
+    description: d.description || null,
+    gi_bill: d.gi_bill ?? false,
+    intro_flight: d.intro_flight ?? false,
+    ground_school: d.ground_school ?? false,
+    financing: d.financing ?? false,
+    simulator: d.simulator ?? false,
+    simulator_notes: d.simulator_notes || null,
+    founded_year: d.founded_year ?? null,
+    hours: d.hours || null,
+    slug: toSlug(d.name, d.city, d.state),
+  };
+
   if (isEdit) {
-    // update existing school
     const { error: updateError } = await supabase
       .from("schools")
-      .update({
-        name: d.name,
-        address: d.address,
-        city: d.city,
-        state: d.state,
-        zip: d.zip,
-        airport_id: d.airport_id || null,
-        part_61: d.part_61,
-        part_141: d.part_141,
-        website: d.website || null,
-        phone: d.phone || null,
-        email: d.email || null,
-        description: d.description || null,
-        slug: toSlug(d.name, d.city, d.state),
-      })
+      .update(schoolFields)
       .eq("id", contribution.school_id);
 
     if (updateError) {
@@ -103,31 +112,21 @@ export async function PATCH(
       return NextResponse.json({ error: "Failed to update school." }, { status: 500 });
     }
 
-    // replace certifications
-    await supabase.from("certifications").delete().eq("school_id", contribution.school_id);
+    const sid = c.school_id;
+    await supabase.from("certifications").delete().eq("school_id", sid);
     if (d.certifications && d.certifications.length > 0) {
-      await supabase.from("certifications").insert(
-        d.certifications.map((cert_type) => ({
-          school_id: c.school_id,
-          cert_type,
-        }))
-      );
+      await supabase.from("certifications").insert(d.certifications.map((cert_type) => ({ school_id: sid, cert_type })));
     }
-
-    // replace fleet
-    await supabase.from("fleet").delete().eq("school_id", c.school_id);
+    await supabase.from("fleet").delete().eq("school_id", sid);
     if (d.fleet && d.fleet.length > 0) {
-      await supabase.from("fleet").insert(
-        d.fleet.map((aircraft) => ({
-          school_id: c.school_id,
-          aircraft,
-        }))
-      );
+      await supabase.from("fleet").insert(d.fleet.map((aircraft) => ({ school_id: sid, aircraft })));
+    }
+    await supabase.from("specialties").delete().eq("school_id", sid);
+    if (d.specialties && d.specialties.length > 0) {
+      await supabase.from("specialties").insert(d.specialties.map((specialty) => ({ school_id: sid, specialty })));
     }
   } else {
-    // new school — geocode address first
     const coords = await geocode(d.address, d.city, d.state, d.zip);
-
     if (!coords) {
       return NextResponse.json(
         { error: "Could not geocode address. Please verify the address and try again." },
@@ -137,24 +136,7 @@ export async function PATCH(
 
     const { data: newSchool, error: insertError } = await supabase
       .from("schools")
-      .insert({
-        name: d.name,
-        address: d.address,
-        city: d.city,
-        state: d.state,
-        zip: d.zip,
-        airport_id: d.airport_id || null,
-        part_61: d.part_61,
-        part_141: d.part_141,
-        website: d.website || null,
-        phone: d.phone || null,
-        email: d.email || null,
-        description: d.description || null,
-        location: `POINT(${coords.lng} ${coords.lat})`,
-        slug: toSlug(d.name, d.city, d.state),
-        status: "published",
-        submitted_by: c.submitted_by,
-      })
+      .insert({ ...schoolFields, location: `POINT(${coords.lng} ${coords.lat})`, status: "published", submitted_by: c.submitted_by })
       .select("id")
       .single();
 
@@ -163,22 +145,15 @@ export async function PATCH(
       return NextResponse.json({ error: "Failed to create school." }, { status: 500 });
     }
 
+    const sid = newSchool.id;
     if (d.certifications && d.certifications.length > 0) {
-      await supabase.from("certifications").insert(
-        d.certifications.map((cert_type) => ({
-          school_id: newSchool.id,
-          cert_type,
-        }))
-      );
+      await supabase.from("certifications").insert(d.certifications.map((cert_type) => ({ school_id: sid, cert_type })));
     }
-
     if (d.fleet && d.fleet.length > 0) {
-      await supabase.from("fleet").insert(
-        d.fleet.map((aircraft) => ({
-          school_id: newSchool.id,
-          aircraft,
-        }))
-      );
+      await supabase.from("fleet").insert(d.fleet.map((aircraft) => ({ school_id: sid, aircraft })));
+    }
+    if (d.specialties && d.specialties.length > 0) {
+      await supabase.from("specialties").insert(d.specialties.map((specialty) => ({ school_id: sid, specialty })));
     }
   }
 

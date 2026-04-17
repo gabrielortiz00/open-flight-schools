@@ -16,7 +16,8 @@ if (!SUPABASE_URL || !SUPABASE_SECRET_KEY || !MAPBOX_TOKEN) {
   process.exit(1);
 }
 
-const VALID_CERTS = new Set(["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"]);
+const VALID_CERTS = new Set(["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP", "REC", "SPORT", "HELI"]);
+const VALID_SPECIALTIES = new Set(["mountain_flying", "upset_recovery", "aerobatics", "seaplane", "tailwheel", "ski_flying", "night_vision", "fire_fighting"]);
 
 function toSlug(name, city, state) {
   return `${name} ${city} ${state}`
@@ -85,6 +86,8 @@ async function importRow(row, index) {
 
   const certifications = parseList(row.certifications).filter((c) => VALID_CERTS.has(c));
   const fleet = row.fleet ? row.fleet.split(",").map((s) => s.trim()).filter(Boolean) : [];
+  const specialties = parseList(row.specialties.toLowerCase()).filter((s) => VALID_SPECIALTIES.has(s));
+  const foundedYear = row.founded_year ? parseInt(row.founded_year, 10) : null;
 
   // insert school
   const { data: school, error } = await supabase
@@ -97,6 +100,14 @@ async function importRow(row, index) {
       zip: row.zip.trim(),
       airport_id: row.airport_id?.trim().toUpperCase() || null,
       slug: toSlug(row.name.trim(), row.city.trim(), row.state.trim()),
+      founded_year: foundedYear && foundedYear >= 1900 && foundedYear <= 2030 ? foundedYear : null,
+      hours: row.hours?.trim() || null,
+      gi_bill: parseBool(row.gi_bill),
+      intro_flight: parseBool(row.intro_flight),
+      ground_school: parseBool(row.ground_school),
+      financing: parseBool(row.financing),
+      simulator: parseBool(row.simulator),
+      simulator_notes: row.simulator_notes?.trim() || null,
       part_61: parseBool(row.part_61),
       part_141: parseBool(row.part_141),
       website: row.website?.trim() || null,
@@ -120,6 +131,12 @@ async function importRow(row, index) {
   if (fleet.length > 0) {
     await supabase.from("fleet").insert(
       fleet.map((aircraft) => ({ school_id: school.id, aircraft }))
+    );
+  }
+
+  if (specialties.length > 0) {
+    await supabase.from("specialties").insert(
+      specialties.map((specialty) => ({ school_id: school.id, specialty }))
     );
   }
 

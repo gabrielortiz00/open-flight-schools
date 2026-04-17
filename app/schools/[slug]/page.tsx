@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import ReviewForm from "@/components/ReviewForm";
 import AdminDeleteReview from "@/components/AdminDeleteReview";
+import { SPECIALTY_OPTIONS } from "@/lib/constants";
 import type { Metadata } from "next";
 
 interface Props { params: Promise<{ slug: string }>; }
@@ -35,6 +36,14 @@ function CertBadge({ label }: { label: string }) {
   );
 }
 
+function ServiceTag({ label }: { label: string }) {
+  return (
+    <span className="text-xs bg-[#F1FAEE] text-[#1D3557] border border-[#A8DADC] px-3 py-1 rounded-full">
+      {label}
+    </span>
+  );
+}
+
 export default async function SchoolPage({ params }: Props) {
   const { slug } = await params;
   const supabase = await createClient();
@@ -47,8 +56,11 @@ export default async function SchoolPage({ params }: Props) {
     .select(`
       id, slug, name, address, city, state, zip, airport_id,
       part_61, part_141, website, phone, email, description, status,
+      gi_bill, intro_flight, ground_school, financing,
+      simulator, simulator_notes, founded_year, hours,
       certifications (cert_type),
       fleet (aircraft),
+      specialties (specialty),
       pricing (cert_type, price_low, price_high),
       reviews (id, rating, body, display_name, created_at)
     `)
@@ -114,6 +126,16 @@ export default async function SchoolPage({ params }: Props) {
                 ★ {avgRating.toFixed(1)} · {school.reviews.length} review{school.reviews.length !== 1 ? "s" : ""}
               </span>
             )}
+            {school.gi_bill && (
+              <span className="font-mono text-xs bg-green-400/20 text-green-200 border border-green-400/30 px-3 py-1 rounded-full font-medium">
+                GI Bill
+              </span>
+            )}
+            {school.founded_year && (
+              <span className="text-xs bg-white/10 text-[#F1FAEE]/70 border border-white/10 px-3 py-1 rounded-full">
+                Est. {school.founded_year}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -154,7 +176,13 @@ export default async function SchoolPage({ params }: Props) {
                 Visit website →
               </a>
             )}
-            {!school.phone && !safeEmail && !safeWebsite && (
+            {school.hours && (
+              <div>
+                <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Hours</p>
+                <p className="text-sm text-[#1D3557]">{school.hours}</p>
+              </div>
+            )}
+            {!school.phone && !safeEmail && !safeWebsite && !school.hours && (
               <p className="text-sm text-gray-400">No contact info listed.</p>
             )}
           </div>
@@ -194,6 +222,32 @@ export default async function SchoolPage({ params }: Props) {
             )}
           </div>
         </div>
+
+        {/* Features */}
+        {(school.intro_flight || school.ground_school || school.financing || school.simulator) && (
+          <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+            <h2 className="font-display font-semibold text-[#1D3557] text-sm uppercase tracking-wider mb-3">Services</h2>
+            <div className="flex flex-wrap gap-2">
+              {school.intro_flight && <ServiceTag label="Intro Flight" />}
+              {school.ground_school && <ServiceTag label="Ground School" />}
+              {school.simulator && <ServiceTag label={school.simulator_notes ? `Simulator — ${school.simulator_notes}` : "Simulator"} />}
+              {school.financing && <ServiceTag label="Financing Available" />}
+            </div>
+          </div>
+        )}
+
+        {/* Specialties */}
+        {school.specialties.length > 0 && (
+          <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+            <h2 className="font-display font-semibold text-[#1D3557] text-sm uppercase tracking-wider mb-3">Advanced Training</h2>
+            <div className="flex flex-wrap gap-2">
+              {school.specialties.map((s: { specialty: string }) => {
+                const label = SPECIALTY_OPTIONS.find((o) => o.value === s.specialty)?.label ?? s.specialty;
+                return <ServiceTag key={s.specialty} label={label} />;
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Pricing */}
         {school.pricing.length > 0 && (

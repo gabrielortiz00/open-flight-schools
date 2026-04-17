@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { UUID_RE, VALID_CERTS, VALID_STATES } from "@/lib/constants";
+import { UUID_RE, VALID_CERTS, VALID_SPECIALTIES, VALID_STATES } from "@/lib/constants";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -101,6 +101,31 @@ export async function POST(request: NextRequest) {
     }
   }
 
+  // validate specialties array
+  if (d.specialties !== undefined) {
+    if (!Array.isArray(d.specialties) || !d.specialties.every((s) => typeof s === "string" && VALID_SPECIALTIES.has(s))) {
+      return NextResponse.json({ error: "Invalid specialties." }, { status: 400 });
+    }
+  }
+
+  // validate new optional fields
+  if (d.founded_year !== undefined && d.founded_year !== null) {
+    const yr = Number(d.founded_year);
+    if (!Number.isInteger(yr) || yr < 1900 || yr > 2030) {
+      return NextResponse.json({ error: "Invalid founded year." }, { status: 400 });
+    }
+  }
+  if (d.hours !== undefined && d.hours !== null && d.hours !== "") {
+    if (typeof d.hours !== "string" || d.hours.length > 200) {
+      return NextResponse.json({ error: "Hours must be under 200 characters." }, { status: 400 });
+    }
+  }
+  if (d.simulator_notes !== undefined && d.simulator_notes !== null && d.simulator_notes !== "") {
+    if (typeof d.simulator_notes !== "string" || d.simulator_notes.length > 100) {
+      return NextResponse.json({ error: "Simulator notes must be under 100 characters." }, { status: 400 });
+    }
+  }
+
   // sanitize and store
   const sanitized = {
     name: d.name.trim(),
@@ -117,6 +142,15 @@ export async function POST(request: NextRequest) {
     description: typeof d.description === "string" && d.description.trim() ? d.description.trim() : null,
     certifications: Array.isArray(d.certifications) ? d.certifications : [],
     fleet: Array.isArray(d.fleet) ? d.fleet.map((f: string) => f.trim()).filter(Boolean) : [],
+    specialties: Array.isArray(d.specialties) ? d.specialties : [],
+    gi_bill: d.gi_bill === true,
+    intro_flight: d.intro_flight === true,
+    ground_school: d.ground_school === true,
+    financing: d.financing === true,
+    simulator: d.simulator === true,
+    simulator_notes: typeof d.simulator_notes === "string" && d.simulator_notes.trim() ? d.simulator_notes.trim() : null,
+    founded_year: d.founded_year != null ? Number(d.founded_year) : null,
+    hours: typeof d.hours === "string" && d.hours.trim() ? d.hours.trim() : null,
   };
 
   const { error } = await supabase.from("contributions").insert({
