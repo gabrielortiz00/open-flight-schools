@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { useState } from "react";
+import GoogleAuthButton from "@/components/GoogleAuthButton";
 
 const inputClass =
   "w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-[#1D3557] bg-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#457B9D] focus:border-transparent transition";
@@ -69,6 +70,14 @@ export default function SignupPage() {
               Sign in
             </Link>
           </p>
+
+          <GoogleAuthButton label="Sign up with Google" />
+
+          <div className="flex items-center gap-3 my-4">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-xs text-gray-400">or</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
