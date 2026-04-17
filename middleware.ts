@@ -3,8 +3,9 @@ import { createMiddlewareClient } from "@/lib/supabase/middleware";
 
 // Simple sliding-window rate limiter (per edge instance — sufficient for early-stage traffic)
 const LIMITS: Record<string, { max: number; windowMs: number }> = {
-  "/api/contributions": { max: 10, windowMs: 60_000 },
+  "/api/contributions": { max: 10,  windowMs: 60_000 },
   "/api/schools":       { max: 120, windowMs: 60_000 },
+  "/api/airport":       { max: 30,  windowMs: 60_000 },
 };
 
 // ip -> { path -> { count, windowStart } }
