@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Browse all US flight schools in the Open Flight Schools directory.",
 };
 
-interface SearchParams { q?: string; state?: string; cert?: string; page?: string; }
+interface SearchParams { q?: string; state?: string; cert?: string; sort?: string; page?: string; }
 interface Props { searchParams: Promise<SearchParams>; }
 const PAGE_SIZE = 25;
 
@@ -20,13 +20,14 @@ function pageUrl(params: SearchParams, page: number) {
   if (params.q) p.set("q", params.q);
   if (params.state) p.set("state", params.state);
   if (params.cert) p.set("cert", params.cert);
+  if (params.sort) p.set("sort", params.sort);
   if (page > 1) p.set("page", String(page));
   const qs = p.toString();
   return qs ? `/schools?${qs}` : "/schools";
 }
 
 export default async function SchoolsPage({ searchParams }: Props) {
-  const { q, state, cert, page: pageParam } = await searchParams;
+  const { q, state, cert, sort, page: pageParam } = await searchParams;
   const page = Math.max(1, parseInt(pageParam ?? "1", 10) || 1);
   const from = (page - 1) * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;
@@ -45,9 +46,9 @@ export default async function SchoolsPage({ searchParams }: Props) {
 
   let query = supabase
     .from("schools")
-    .select("id, slug, name, city, state, part_61, part_141, certifications (cert_type), reviews (rating)", { count: "exact" })
+    .select("id, slug, name, city, state, part_61, part_141, avg_rating, review_count, certifications (cert_type)", { count: "exact" })
     .eq("status", "published")
-    .order("name")
+    .order(sort === "rating" ? "avg_rating" : "name", { ascending: sort !== "rating", nullsFirst: false })
     .range(from, to);
 
   if (state) query = query.eq("state", state.toUpperCase());
@@ -62,8 +63,8 @@ export default async function SchoolsPage({ searchParams }: Props) {
 
   const { data: schools, count } = await query;
   const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE);
-  const hasFilters = q || state || cert;
-  const params = { q, state, cert, page: pageParam };
+  const hasFilters = q || state || cert || sort;
+  const params = { q, state, cert, sort, page: pageParam };
 
   return (
     <div className="bg-[#F1FAEE] min-h-full">
@@ -107,6 +108,10 @@ export default async function SchoolsPage({ searchParams }: Props) {
                 <option key={c} value={c}>{c}</option>
               ))}
             </select>
+            <select name="sort" defaultValue={sort ?? ""} className={inputClass + " flex-1 sm:flex-none"}>
+              <option value="">Sort: A–Z</option>
+              <option value="rating">Sort: Rating</option>
+            </select>
           </div>
           <div className="flex gap-2">
             <button
@@ -140,10 +145,6 @@ export default async function SchoolsPage({ searchParams }: Props) {
           <>
             <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm divide-y divide-gray-100">
               {schools.map((school) => {
-                const ratings = school.reviews as { rating: number }[];
-                const avg = ratings.length
-                  ? ratings.reduce((s, r) => s + r.rating, 0) / ratings.length
-                  : null;
                 const certs = (school.certifications as { cert_type: string }[]).map((c) => c.cert_type);
 
                 return (
@@ -183,9 +184,9 @@ export default async function SchoolsPage({ searchParams }: Props) {
                           </span>
                         )}
                       </div>
-                      {avg !== null && (
+                      {school.avg_rating != null && (
                         <span className="text-sm text-amber-500 font-semibold whitespace-nowrap">
-                          ★ {avg.toFixed(1)}
+                          ★ {Number(school.avg_rating).toFixed(1)}
                         </span>
                       )}
                       <span className="text-gray-300 group-hover:text-[#457B9D] transition-colors text-lg">→</span>

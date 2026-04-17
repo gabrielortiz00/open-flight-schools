@@ -50,7 +50,7 @@ export default async function SchoolPage({ params }: Props) {
       certifications (cert_type),
       fleet (aircraft),
       pricing (cert_type, price_low, price_high),
-      reviews (id, rating, body, created_at)
+      reviews (id, rating, body, display_name, created_at)
     `)
     .eq("slug", slug)
     .eq("status", "published")
@@ -228,13 +228,14 @@ export default async function SchoolPage({ params }: Props) {
           </h2>
           {school.reviews.length > 0 ? (
             <div className="divide-y divide-gray-100 mb-6">
-              {school.reviews.map((r: { id: string; rating: number; body: string | null; created_at: string }) => (
+              {school.reviews.map((r: { id: string; rating: number; body: string | null; display_name: string | null; created_at: string }) => (
                 <div key={r.id} className="py-4 first:pt-0">
-                  <div className="flex items-center gap-2 mb-1.5">
+                  <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                     <span className="text-amber-400 text-sm tracking-widest">
                       {"★".repeat(r.rating)}
                       <span className="text-gray-200">{"★".repeat(5 - r.rating)}</span>
                     </span>
+                    <span className="text-xs font-medium text-[#1D3557]">{r.display_name ?? "Anonymous"}</span>
                     <span className="text-xs text-gray-400">
                       {new Date(r.created_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
                     </span>

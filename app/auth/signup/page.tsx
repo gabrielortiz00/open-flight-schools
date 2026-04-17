@@ -9,6 +9,7 @@ const inputClass =
   "w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-[#1D3557] bg-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#457B9D] focus:border-transparent transition";
 
 export default function SignupPage() {
+  const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +24,10 @@ export default function SignupPage() {
     const supabase = createClient();
     const { error } = await supabase.auth.signUp({
       email, password,
-      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        data: { display_name: displayName.trim() || null },
+      },
     });
 
     if (error) {
@@ -80,6 +84,17 @@ export default function SignupPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-[#1D3557] mb-1.5">Display name</label>
+              <input
+                type="text" value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                maxLength={50}
+                placeholder="How you'll appear on reviews"
+                className={inputClass}
+              />
+            </div>
+
             <div>
               <label className="block text-sm font-semibold text-[#1D3557] mb-1.5">Email</label>
               <input

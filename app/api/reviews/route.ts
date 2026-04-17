@@ -31,11 +31,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Review body must be under 2000 characters." }, { status: 400 });
   }
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("display_name")
+    .eq("id", user.id)
+    .single();
+
   const { error } = await supabase.from("reviews").insert({
     school_id,
     user_id: user.id,
     rating,
     body: typeof review_body === "string" && review_body.trim() ? review_body.trim() : null,
+    display_name: profile?.display_name ?? null,
   });
 
   if (error) {
