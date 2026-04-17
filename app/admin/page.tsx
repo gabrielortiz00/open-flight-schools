@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import ContributionCard from "@/components/ContributionCard";
 
 export default async function AdminPage() {
@@ -31,6 +32,9 @@ export default async function AdminPage() {
             <p className="font-mono text-xs text-[#457B9D] uppercase tracking-widest mb-1">Admin</p>
             <h1 className="font-display text-2xl font-bold text-[#1D3557]">Moderation Queue</h1>
           </div>
+          <Link href="/admin/schools" className="text-sm text-[#457B9D] hover:text-[#1D3557] font-medium transition-colors">
+            Manage schools →
+          </Link>
           <span className={`font-mono text-sm px-3 py-1.5 rounded-full font-medium ${
             (contributions?.length ?? 0) > 0
               ? "bg-[#E63946]/10 text-[#E63946]"

@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import ReviewForm from "@/components/ReviewForm";
+import AdminDeleteReview from "@/components/AdminDeleteReview";
 import type { Metadata } from "next";
 
 interface Props { params: Promise<{ id: string }>; }
@@ -37,6 +38,12 @@ export default async function SchoolPage({ params }: Props) {
   const { id } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+
+  let isAdmin = false;
+  if (user) {
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+    isAdmin = profile?.role === "admin";
+  }
 
   const { data: school } = await supabase
     .from("schools")
@@ -229,6 +236,7 @@ export default async function SchoolPage({ params }: Props) {
                     <span className="text-xs text-gray-400">
                       {new Date(r.created_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
                     </span>
+                    {isAdmin && <AdminDeleteReview reviewId={r.id} />}
                   </div>
                   {r.body && <p className="text-sm text-gray-700 leading-relaxed">{r.body}</p>}
                 </div>
