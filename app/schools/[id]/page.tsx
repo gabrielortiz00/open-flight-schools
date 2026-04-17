@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import ReviewForm from "@/components/ReviewForm";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -9,6 +10,8 @@ interface Props {
 export default async function SchoolPage({ params }: Props) {
   const { id } = await params;
   const supabase = await createClient();
+
+  const { data: { user } } = await supabase.auth.getUser();
 
   const { data: school } = await supabase
     .from("schools")
@@ -187,8 +190,9 @@ export default async function SchoolPage({ params }: Props) {
               ))}
             </div>
           ) : (
-            <p className="text-sm text-gray-400">No reviews yet. Be the first to review this school.</p>
+            <p className="text-sm text-gray-400 pb-4">No reviews yet. Be the first to review this school.</p>
           )}
+          <ReviewForm schoolId={school.id} userEmail={user?.email} />
         </div>
 
       </div>
