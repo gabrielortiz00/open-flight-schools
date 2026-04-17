@@ -70,3 +70,17 @@ Living document. Steps and priorities will shift as the project evolves.
 - [ ] Mobile responsiveness
 - [ ] Rate limiting on API routes
 - [ ] Production data import — seed with comprehensive US school data
+
+---
+
+## Future — Flight School Data Aggregation API
+
+There is no single clean public source for US flight school data. The FAA has a searchable tool for Part 141 schools (av-info.faa.gov) but no downloadable dataset. Part 61 schools have no central registry at all.
+
+**Idea:** Build a separate open source project (or a later phase of this one) — a data aggregation pipeline that scrapes and normalizes flight school data from multiple sources:
+- FAA Part 141 search tool (av-info.faa.gov/PilotSchool.asp)
+- AOPA flight school finder
+- State aviation authority directories
+- Google Places API (for schools not listed elsewhere)
+
+Output would be a clean, regularly-updated JSON/CSV dataset released publicly so any project can use it. This solves the data problem not just for this app but for the aviation community broadly.

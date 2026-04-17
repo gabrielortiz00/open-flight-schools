@@ -1,0 +1,638 @@
+[
+  {
+    "name": "Embry-Riddle Aeronautical University",
+    "address": "600 S Clyde Morris Blvd",
+    "city": "Daytona Beach",
+    "state": "FL",
+    "zip": "32114",
+    "lat": 29.1872,
+    "lng": -81.0559,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://erau.edu",
+    "phone": "(386) 226-6000",
+    "email": "admissions@erau.edu",
+    "description": "One of the world's most prestigious aviation universities. Offers undergraduate and graduate aviation degrees alongside flight training.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"],
+    "fleet": ["Cessna 172", "Piper Arrow", "Piper Seminole", "Diamond DA42"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 10000, "price_high": 15000 },
+      { "cert_type": "IR", "price_low": 8000, "price_high": 12000 },
+      { "cert_type": "CPL", "price_low": 15000, "price_high": 20000 }
+    ]
+  },
+  {
+    "name": "Embry-Riddle Aeronautical University — Prescott",
+    "address": "3700 Willow Creek Rd",
+    "city": "Prescott",
+    "state": "AZ",
+    "zip": "86301",
+    "lat": 34.6549,
+    "lng": -112.4194,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://erau.edu/prescott",
+    "phone": "(928) 777-6600",
+    "email": "admissions.pr@erau.edu",
+    "description": "ERAU's western campus in the mountains of Arizona. Same rigorous aviation programs in a smaller campus environment.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"],
+    "fleet": ["Cessna 172", "Piper Arrow", "Piper Seminole", "Diamond DA42"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 10000, "price_high": 15000 },
+      { "cert_type": "IR", "price_low": 8000, "price_high": 12000 }
+    ]
+  },
+  {
+    "name": "ATP Flight School — Jacksonville",
+    "address": "5200 Hangar Rd",
+    "city": "Jacksonville",
+    "state": "FL",
+    "zip": "32229",
+    "lat": 30.3362,
+    "lng": -81.5141,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://atpflightschool.com",
+    "phone": "(904) 595-7950",
+    "email": "info@atpflightschool.com",
+    "description": "ATP is the largest flight school in the US, training more airline pilots than any other school. Accelerated programs focused on airline career track.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"],
+    "fleet": ["Cessna 172", "Piper Seminole"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 9000, "price_high": 11000 },
+      { "cert_type": "ATP", "price_low": 85000, "price_high": 100000 }
+    ]
+  },
+  {
+    "name": "ATP Flight School — Phoenix Mesa",
+    "address": "4800 E Falcon Dr",
+    "city": "Mesa",
+    "state": "AZ",
+    "zip": "85215",
+    "lat": 33.4606,
+    "lng": -111.7280,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://atpflightschool.com",
+    "phone": "(480) 396-3000",
+    "email": "info@atpflightschool.com",
+    "description": "ATP's Phoenix area location at Falcon Field. Excellent VFR weather year-round makes it ideal for accelerated training.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"],
+    "fleet": ["Cessna 172", "Piper Seminole"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 9000, "price_high": 11000 },
+      { "cert_type": "ATP", "price_low": 85000, "price_high": 100000 }
+    ]
+  },
+  {
+    "name": "ATP Flight School — Dallas Addison",
+    "address": "4300 Westgrove Dr",
+    "city": "Addison",
+    "state": "TX",
+    "zip": "75001",
+    "lat": 32.9618,
+    "lng": -96.8358,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://atpflightschool.com",
+    "phone": "(972) 960-0600",
+    "email": "info@atpflightschool.com",
+    "description": "ATP's Dallas area location at Addison Airport. One of the busiest general aviation airports in Texas.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"],
+    "fleet": ["Cessna 172", "Piper Seminole"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 9000, "price_high": 11000 },
+      { "cert_type": "ATP", "price_low": 85000, "price_high": 100000 }
+    ]
+  },
+  {
+    "name": "Phoenix East Aviation",
+    "address": "1600 Flightline Blvd",
+    "city": "Daytona Beach",
+    "state": "FL",
+    "zip": "32114",
+    "lat": 29.1799,
+    "lng": -81.0610,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://pea.com",
+    "phone": "(386) 255-0787",
+    "email": "info@pea.com",
+    "description": "International flight training academy based at Daytona Beach International Airport. Known for training international students alongside domestic pilots.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"],
+    "fleet": ["Cessna 172", "Piper Seminole", "Piper Arrow"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 8000, "price_high": 12000 },
+      { "cert_type": "CPL", "price_low": 14000, "price_high": 18000 }
+    ]
+  },
+  {
+    "name": "Epic Flight Academy",
+    "address": "600 S Clyde Morris Blvd",
+    "city": "New Smyrna Beach",
+    "state": "FL",
+    "zip": "32168",
+    "lat": 29.0558,
+    "lng": -80.9483,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://epicflightacademy.com",
+    "phone": "(386) 409-5583",
+    "email": "info@epicflightacademy.com",
+    "description": "Fast-track airline career programs. Offers zero-to-hero training packages designed to get students to the airlines as efficiently as possible.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"],
+    "fleet": ["Cessna 172", "Piper Seminole", "Cirrus SR20"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 9000, "price_high": 13000 },
+      { "cert_type": "ATP", "price_low": 80000, "price_high": 95000 }
+    ]
+  },
+  {
+    "name": "Wayman Aviation Academy",
+    "address": "8800 NW 21st St",
+    "city": "Miami",
+    "state": "FL",
+    "zip": "33172",
+    "lat": 25.7950,
+    "lng": -80.3380,
+    "part_61": true,
+    "part_141": true,
+    "website": "https://waymanaviation.com",
+    "phone": "(305) 871-3850",
+    "email": "info@waymanaviation.com",
+    "description": "South Florida flight school with strong ties to Latin American aviation community. Training in English and Spanish.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII"],
+    "fleet": ["Cessna 172", "Piper Arrow", "Piper Seminole"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 8500, "price_high": 12000 }
+    ]
+  },
+  {
+    "name": "University of North Dakota — John D. Odegard School",
+    "address": "4201 University Ave Stop 9007",
+    "city": "Grand Forks",
+    "state": "ND",
+    "zip": "58202",
+    "lat": 47.9229,
+    "lng": -97.0846,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://und.edu/programs/aviation",
+    "phone": "(701) 777-2791",
+    "email": "aviation@und.edu",
+    "description": "One of the largest and most respected university aviation programs in the world. Over 50 years of flight training history.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"],
+    "fleet": ["Cessna 172", "Beechcraft Duchess", "Piper Seminole", "Boeing 737 Sim"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 10000, "price_high": 14000 },
+      { "cert_type": "CPL", "price_low": 16000, "price_high": 22000 }
+    ]
+  },
+  {
+    "name": "Purdue University Aviation Technology",
+    "address": "1401 Aviation Dr",
+    "city": "West Lafayette",
+    "state": "IN",
+    "zip": "47906",
+    "lat": 40.4173,
+    "lng": -86.9237,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://polytechnic.purdue.edu/aviation",
+    "phone": "(765) 494-4700",
+    "email": "aviation@purdue.edu",
+    "description": "Purdue's aviation program at Purdue University Airport. Strong academic engineering culture combined with professional flight training.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII"],
+    "fleet": ["Cessna 172", "Piper Arrow", "Beechcraft Duchess"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 11000, "price_high": 15000 }
+    ]
+  },
+  {
+    "name": "Western Michigan University — College of Aviation",
+    "address": "5550 Portage Rd",
+    "city": "Kalamazoo",
+    "state": "MI",
+    "zip": "49002",
+    "lat": 42.2280,
+    "lng": -85.5522,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://wmich.edu/aviation",
+    "phone": "(269) 964-6375",
+    "email": "aviation@wmich.edu",
+    "description": "ABET-accredited aviation program at Kalamazoo/Battle Creek International Airport. One of the top aviation universities in the Midwest.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII"],
+    "fleet": ["Cessna 172", "Piper Arrow", "Piper Seminole"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 10000, "price_high": 14000 }
+    ]
+  },
+  {
+    "name": "Lewis University Aviation",
+    "address": "One University Pkwy",
+    "city": "Romeoville",
+    "state": "IL",
+    "zip": "60446",
+    "lat": 41.6078,
+    "lng": -88.0959,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://lewisu.edu/aviation",
+    "phone": "(815) 836-5610",
+    "email": "aviation@lewisu.edu",
+    "description": "Located at Lewis University Airport southwest of Chicago. FAA-approved Part 141 program with both aviation and aviation management degrees.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII"],
+    "fleet": ["Cessna 172", "Piper Arrow", "Piper Seminole"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 9000, "price_high": 13000 }
+    ]
+  },
+  {
+    "name": "University of North Texas — Aviation",
+    "address": "1011 N Locust St",
+    "city": "Denton",
+    "state": "TX",
+    "zip": "76201",
+    "lat": 33.1992,
+    "lng": -97.1320,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://transportation.unt.edu/aviation",
+    "phone": "(940) 565-2420",
+    "email": "aviation@unt.edu",
+    "description": "University aviation program at Denton Enterprise Airport. Offers B.S. in Aviation with flight training tracks.",
+    "certifications": ["PPL", "IR", "CPL", "CFI", "CFII"],
+    "fleet": ["Cessna 172", "Piper Arrow"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 9000, "price_high": 13000 }
+    ]
+  },
+  {
+    "name": "American Flyers — Addison",
+    "address": "4700 Westgrove Dr",
+    "city": "Addison",
+    "state": "TX",
+    "zip": "75001",
+    "lat": 32.9650,
+    "lng": -96.8400,
+    "part_61": true,
+    "part_141": true,
+    "website": "https://americanflyers.net",
+    "phone": "(972) 960-0600",
+    "email": "info@americanflyers.net",
+    "description": "One of the oldest and most established flight schools in the US, operating since 1939. Accelerated programs and traditional structured training available.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII"],
+    "fleet": ["Cessna 172", "Piper Arrow", "Piper Seminole"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 7000, "price_high": 11000 },
+      { "cert_type": "IR", "price_low": 6000, "price_high": 9000 }
+    ]
+  },
+  {
+    "name": "Hillsboro Aero Academy",
+    "address": "3355 NE Cornell Rd",
+    "city": "Hillsboro",
+    "state": "OR",
+    "zip": "97124",
+    "lat": 45.5399,
+    "lng": -122.9498,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://hillsboroareoacademy.com",
+    "phone": "(503) 648-2831",
+    "email": "info@hillsboroareoacademy.com",
+    "description": "Pacific Northwest's leading professional pilot training academy. International student program with housing available. Located at Hillsboro Airport.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"],
+    "fleet": ["Cessna 172", "Piper Arrow", "Piper Seminole", "Diamond DA42"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 9000, "price_high": 13000 },
+      { "cert_type": "CPL", "price_low": 15000, "price_high": 20000 }
+    ]
+  },
+  {
+    "name": "Cal Poly San Luis Obispo — Aeronautics",
+    "address": "1 Grand Ave",
+    "city": "San Luis Obispo",
+    "state": "CA",
+    "zip": "93407",
+    "lat": 35.3050,
+    "lng": -120.6625,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://aero.calpoly.edu",
+    "phone": "(805) 756-2562",
+    "email": "aero@calpoly.edu",
+    "description": "Cal Poly's learn-by-doing aviation program at San Luis Obispo County Regional Airport. Strong integration of aerospace engineering and flight training.",
+    "certifications": ["PPL", "IR", "CPL", "CFI", "CFII"],
+    "fleet": ["Cessna 172", "Piper Arrow"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 10000, "price_high": 14000 }
+    ]
+  },
+  {
+    "name": "ATP Flight School — Oakland",
+    "address": "600 Hegenberger Rd",
+    "city": "Oakland",
+    "state": "CA",
+    "zip": "94621",
+    "lat": 37.7213,
+    "lng": -122.2208,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://atpflightschool.com",
+    "phone": "(510) 563-9900",
+    "email": "info@atpflightschool.com",
+    "description": "ATP's San Francisco Bay Area location at Oakland International Airport. Great access to complex Bay Area airspace for training.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"],
+    "fleet": ["Cessna 172", "Piper Seminole"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 9000, "price_high": 12000 },
+      { "cert_type": "ATP", "price_low": 85000, "price_high": 100000 }
+    ]
+  },
+  {
+    "name": "United Aviate Academy",
+    "address": "1355 N Aviate Dr",
+    "city": "Goodyear",
+    "state": "AZ",
+    "zip": "85338",
+    "lat": 33.4225,
+    "lng": -112.3758,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://unitedaviateacademy.com",
+    "phone": "(844) 284-2831",
+    "email": "info@unitedaviateacademy.com",
+    "description": "United Airlines' own flight academy. Students who complete the program have a pathway to interview at United Airlines. Located at Phoenix Goodyear Airport.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"],
+    "fleet": ["Cessna 172", "Piper Seminole", "Diamond DA42"],
+    "pricing": [
+      { "cert_type": "ATP", "price_low": 90000, "price_high": 110000 }
+    ]
+  },
+  {
+    "name": "SkyWest Airlines Pilot Pathway — SkyWest Aviation",
+    "address": "444 S River Rd",
+    "city": "St. George",
+    "state": "UT",
+    "zip": "84770",
+    "lat": 37.0360,
+    "lng": -113.5102,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://skywestaviation.com",
+    "phone": "(435) 634-3000",
+    "email": "info@skywestaviation.com",
+    "description": "Flight school affiliated with SkyWest Airlines. Graduates have a direct pathway to the regional airline. Located in St. George with excellent flying weather.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"],
+    "fleet": ["Cessna 172", "Piper Seminole"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 8000, "price_high": 12000 }
+    ]
+  },
+  {
+    "name": "Kansas State University — Polytechnic Aviation",
+    "address": "2310 Centennial Rd",
+    "city": "Salina",
+    "state": "KS",
+    "zip": "67401",
+    "lat": 38.8403,
+    "lng": -97.6522,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://polytechnic.k-state.edu/aviation",
+    "phone": "(785) 826-2640",
+    "email": "aviation@k-state.edu",
+    "description": "K-State's aviation campus at Salina Regional Airport. Offers B.S. in Professional Flight with strong industry connections.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII"],
+    "fleet": ["Cessna 172", "Piper Arrow", "Beechcraft Duchess"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 9000, "price_high": 13000 }
+    ]
+  },
+  {
+    "name": "Middle Tennessee State University — Aerospace",
+    "address": "1301 E Main St",
+    "city": "Murfreesboro",
+    "state": "TN",
+    "zip": "37132",
+    "lat": 35.8456,
+    "lng": -86.3552,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://mtsu.edu/aerospace",
+    "phone": "(615) 898-2788",
+    "email": "aerospace@mtsu.edu",
+    "description": "One of the largest aerospace programs in the Southeast. Training at Murfreesboro Municipal Airport with diverse fleet.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII"],
+    "fleet": ["Cessna 172", "Piper Arrow", "Piper Seminole", "Beechcraft Baron"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 8000, "price_high": 12000 }
+    ]
+  },
+  {
+    "name": "Envoy Air Cadet Program — ATP",
+    "address": "4801 Amon Carter Blvd",
+    "city": "Fort Worth",
+    "state": "TX",
+    "zip": "76155",
+    "lat": 32.8998,
+    "lng": -97.0403,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://atpflightschool.com",
+    "phone": "(817) 963-1234",
+    "email": "info@atpflightschool.com",
+    "description": "ATP's DFW location near American Airlines headquarters. Pathway programs to Envoy Air (American Eagle) regional airline.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"],
+    "fleet": ["Cessna 172", "Piper Seminole"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 9000, "price_high": 11000 },
+      { "cert_type": "ATP", "price_low": 85000, "price_high": 100000 }
+    ]
+  },
+  {
+    "name": "Spartan College of Aeronautics",
+    "address": "8820 E Pine St",
+    "city": "Tulsa",
+    "state": "OK",
+    "zip": "74115",
+    "lat": 36.1987,
+    "lng": -95.8875,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://spartan.edu",
+    "phone": "(918) 836-6886",
+    "email": "admissions@spartan.edu",
+    "description": "One of the oldest aviation schools in the US, founded in 1928. Located at Tulsa International Airport.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII"],
+    "fleet": ["Cessna 172", "Piper Arrow", "Piper Seminole"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 8000, "price_high": 12000 },
+      { "cert_type": "CPL", "price_low": 14000, "price_high": 18000 }
+    ]
+  },
+  {
+    "name": "Sierra Academy of Aeronautics",
+    "address": "Oakland International Airport",
+    "city": "Oakland",
+    "state": "CA",
+    "zip": "94621",
+    "lat": 37.7248,
+    "lng": -122.2174,
+    "part_61": true,
+    "part_141": true,
+    "website": "https://sierraacademy.com",
+    "phone": "(510) 568-6000",
+    "email": "info@sierraacademy.com",
+    "description": "Long-established Bay Area flight school at Oakland International. Known for quality instruction and strong IFR training program.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII"],
+    "fleet": ["Cessna 172", "Cessna 182", "Piper Arrow", "Piper Seminole"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 9000, "price_high": 14000 }
+    ]
+  },
+  {
+    "name": "Gold Seal Flight Training",
+    "address": "6951 N Avondale Ave",
+    "city": "Chicago",
+    "state": "IL",
+    "zip": "60631",
+    "lat": 41.9859,
+    "lng": -87.8097,
+    "part_61": true,
+    "part_141": false,
+    "website": "https://goldsealflight.com",
+    "phone": "(773) 693-0088",
+    "email": "info@goldsealflight.com",
+    "description": "Chicago area Part 61 school at Chicago Executive Airport. Flexible scheduling for working adults. Known for thorough instrument training.",
+    "certifications": ["PPL", "IR", "CPL", "CFI", "CFII"],
+    "fleet": ["Cessna 172", "Cessna 182", "Piper Arrow"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 8000, "price_high": 13000 },
+      { "cert_type": "IR", "price_low": 6000, "price_high": 9000 }
+    ]
+  },
+  {
+    "name": "Florida Tech — Aeronautics",
+    "address": "150 W University Blvd",
+    "city": "Melbourne",
+    "state": "FL",
+    "zip": "32901",
+    "lat": 28.0617,
+    "lng": -80.6218,
+    "part_61": false,
+    "part_141": true,
+    "website": "https://fit.edu/aviation",
+    "phone": "(321) 674-8000",
+    "email": "aviation@fit.edu",
+    "description": "Florida Institute of Technology aviation program at Melbourne Orlando International Airport. STEM-focused aviation degrees.",
+    "certifications": ["PPL", "IR", "CPL", "MEL", "CFI", "CFII"],
+    "fleet": ["Cessna 172", "Piper Arrow", "Piper Seminole"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 9000, "price_high": 13000 }
+    ]
+  },
+  {
+    "name": "Thrust Flight",
+    "address": "2755 S Stemmons Fwy",
+    "city": "Lewisville",
+    "state": "TX",
+    "zip": "75067",
+    "lat": 33.0523,
+    "lng": -97.0152,
+    "part_61": true,
+    "part_141": false,
+    "website": "https://thrustflight.com",
+    "phone": "(972) 353-0100",
+    "email": "info@thrustflight.com",
+    "description": "DFW-area Part 61 school known for fast-track training and strong online ground school resources.",
+    "certifications": ["PPL", "IR", "CPL", "CFI", "CFII"],
+    "fleet": ["Cessna 172", "Piper Arrow"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 7000, "price_high": 10000 },
+      { "cert_type": "IR", "price_low": 5000, "price_high": 8000 }
+    ]
+  },
+  {
+    "name": "Attitude Aviation",
+    "address": "1 Earhart Rd",
+    "city": "Livermore",
+    "state": "CA",
+    "zip": "94551",
+    "lat": 37.6935,
+    "lng": -121.8196,
+    "part_61": true,
+    "part_141": false,
+    "website": "https://attitudeaviation.com",
+    "phone": "(925) 373-3500",
+    "email": "info@attitudeaviation.com",
+    "description": "Bay Area flight school at Livermore Municipal Airport. Relaxed training environment away from the busy Oakland airspace.",
+    "certifications": ["PPL", "IR", "CPL", "CFI"],
+    "fleet": ["Cessna 172", "Cessna 182"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 8000, "price_high": 12000 }
+    ]
+  },
+  {
+    "name": "Crosswinds Aviation",
+    "address": "7505 S Airport Rd",
+    "city": "Chandler",
+    "state": "AZ",
+    "zip": "85249",
+    "lat": 33.2695,
+    "lng": -111.7110,
+    "part_61": true,
+    "part_141": false,
+    "website": "https://crosswindsaviation.com",
+    "phone": "(480) 963-1234",
+    "email": "info@crosswindsaviation.com",
+    "description": "Phoenix-area Part 61 flight school at Chandler Municipal Airport. Over 300 flying days per year. Friendly environment for student and recreational pilots.",
+    "certifications": ["PPL", "IR", "CFI"],
+    "fleet": ["Cessna 172", "Cessna 182"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 7000, "price_high": 10000 }
+    ]
+  },
+  {
+    "name": "Alaska Floats and Skis",
+    "address": "7901 Raspberry Rd",
+    "city": "Anchorage",
+    "state": "AK",
+    "zip": "99502",
+    "lat": 61.1899,
+    "lng": -150.0724,
+    "part_61": true,
+    "part_141": false,
+    "website": "https://alaskafloatsandskis.com",
+    "phone": "(907) 248-5000",
+    "email": "info@alaskafloatsandskis.com",
+    "description": "Unique Alaska flight school specializing in bush flying, floatplane, and ski plane operations. Essential training for Alaska backcountry aviation.",
+    "certifications": ["PPL", "IR"],
+    "fleet": ["Cessna 172", "Piper Super Cub", "Cessna 185 Floatplane"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 12000, "price_high": 18000 }
+    ]
+  },
+  {
+    "name": "Island Air Service",
+    "address": "99 Hangar Ave",
+    "city": "Bar Harbor",
+    "state": "ME",
+    "zip": "04609",
+    "lat": 44.4500,
+    "lng": -68.3615,
+    "part_61": true,
+    "part_141": false,
+    "website": "https://islandairservice.com",
+    "phone": "(207) 667-7627",
+    "email": "info@islandairservice.com",
+    "description": "Scenic New England flight school on the Maine coast. Training along the rocky coastline and islands of Acadia.",
+    "certifications": ["PPL", "IR"],
+    "fleet": ["Cessna 172"],
+    "pricing": [
+      { "cert_type": "PPL", "price_low": 9000, "price_high": 14000 }
+    ]
+  }
+]
