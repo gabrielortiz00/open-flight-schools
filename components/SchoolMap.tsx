@@ -103,7 +103,7 @@ export default function SchoolMap() {
     <div className="w-full flex-1 min-h-0 relative">
 
       {/* Filter panel */}
-      <div className={`absolute top-4 left-4 z-10 transition-all duration-200 ${panelOpen ? "w-60" : "w-auto"}`}>
+      <div className={`absolute top-4 left-4 z-10 transition-all duration-200 ${panelOpen ? "w-[calc(100vw-2rem)] sm:w-60" : "w-auto"}`}>
         {panelOpen ? (
           <div className="bg-white rounded-xl border border-gray-200 shadow-lg overflow-hidden">
             {/* Panel header */}

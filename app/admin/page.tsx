@@ -26,7 +26,7 @@ export default async function AdminPage() {
     <div className="bg-[#F1FAEE] min-h-full">
       <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
 
-        <div className="flex items-end justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
           <div>
             <p className="font-mono text-xs text-[#457B9D] uppercase tracking-widest mb-1">Admin</p>
             <h1 className="font-display text-2xl font-bold text-[#1D3557]">Moderation Queue</h1>

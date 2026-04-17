@@ -84,7 +84,7 @@ export default async function SchoolPage({ params }: Props) {
             </Link>
           </div>
 
-          <h1 className="font-display text-3xl font-bold text-[#F1FAEE]">{school.name}</h1>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-[#F1FAEE]">{school.name}</h1>
           <p className="text-[#A8DADC] mt-1">
             {school.address}, {school.city}, {school.state} {school.zip}
           </p>

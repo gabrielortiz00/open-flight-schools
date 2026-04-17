@@ -2,6 +2,7 @@
 @import "mapbox-gl/dist/mapbox-gl.css";
 
 @theme inline {
+  --breakpoint-xs: 480px;
   --color-navy:    #1D3557;
   --color-sky:     #457B9D;
   --color-teal:    #A8DADC;

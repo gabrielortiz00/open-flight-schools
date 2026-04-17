@@ -92,7 +92,7 @@ export default function ReviewForm({
       <button
         type="submit"
         disabled={loading}
-        className="bg-[#1D3557] text-[#F1FAEE] text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-[#16293f] disabled:opacity-50 transition-colors"
+        className="w-full sm:w-auto bg-[#1D3557] text-[#F1FAEE] text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-[#16293f] disabled:opacity-50 transition-colors"
       >
         {loading ? "Submitting…" : "Submit review"}
       </button>

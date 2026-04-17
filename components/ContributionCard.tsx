@@ -90,7 +90,7 @@ export default function ContributionCard({ contribution }: { contribution: Contr
       </div>
 
       {/* Details grid */}
-      <div className="px-5 py-4 grid grid-cols-2 gap-x-6 gap-y-3 text-sm border-b border-gray-100">
+      <div className="px-5 py-4 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3 text-sm border-b border-gray-100">
         <div>
           <p className="text-xs font-mono text-gray-400 uppercase tracking-wide mb-1">Type</p>
           <p className="text-[#1D3557]">

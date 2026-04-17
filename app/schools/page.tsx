@@ -60,40 +60,44 @@ export default async function SchoolsPage({ searchParams }: Props) {
         </div>
 
         {/* Filters */}
-        <form method="GET" className="flex flex-wrap gap-2 mb-6 p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
+        <form method="GET" className="flex flex-col sm:flex-row flex-wrap gap-2 mb-6 p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
           <input
             name="q"
             defaultValue={q}
             placeholder="Search by name…"
-            className={inputClass + " w-52"}
+            className={inputClass + " w-full sm:w-52"}
           />
-          <input
-            name="state"
-            defaultValue={state}
-            placeholder="State (CA, TX…)"
-            maxLength={2}
-            className={inputClass + " w-32 uppercase"}
-          />
-          <select name="cert" defaultValue={cert ?? ""} className={inputClass}>
-            <option value="">All certifications</option>
-            {CERT_OPTIONS.map((c) => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </select>
-          <button
-            type="submit"
-            className="bg-[#1D3557] text-[#F1FAEE] text-sm font-semibold px-5 py-2 rounded-lg hover:bg-[#16293f] transition-colors"
-          >
-            Filter
-          </button>
-          {hasFilters && (
-            <Link
-              href="/schools"
-              className="text-sm text-gray-400 hover:text-gray-600 flex items-center px-2 transition-colors"
+          <div className="flex gap-2">
+            <input
+              name="state"
+              defaultValue={state}
+              placeholder="State (CA…)"
+              maxLength={2}
+              className={inputClass + " w-28 uppercase"}
+            />
+            <select name="cert" defaultValue={cert ?? ""} className={inputClass + " flex-1 sm:flex-none"}>
+              <option value="">All certs</option>
+              {CERT_OPTIONS.map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex gap-2">
+            <button
+              type="submit"
+              className="flex-1 sm:flex-none bg-[#1D3557] text-[#F1FAEE] text-sm font-semibold px-5 py-2 rounded-lg hover:bg-[#16293f] transition-colors"
             >
-              Clear
-            </Link>
-          )}
+              Filter
+            </button>
+            {hasFilters && (
+              <Link
+                href="/schools"
+                className="flex-1 sm:flex-none text-sm text-gray-400 hover:text-gray-600 flex items-center justify-center px-2 transition-colors"
+              >
+                Clear
+              </Link>
+            )}
+          </div>
         </form>
 
         {/* List */}

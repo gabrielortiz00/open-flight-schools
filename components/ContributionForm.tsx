@@ -167,7 +167,7 @@ export default function ContributionForm({
 
         <div>
           <label className={labelClass}>Training type *</label>
-          <div className="flex gap-6">
+          <div className="flex gap-4 sm:gap-6">
             {[
               { key: "part_61" as const, label: "Part 61" },
               { key: "part_141" as const, label: "Part 141" },
