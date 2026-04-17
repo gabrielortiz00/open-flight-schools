@@ -110,15 +110,11 @@ export default function SchoolMap() {
       let lng: number, lat: number;
 
       if (isAirportId) {
-        // Use FAA/NOAA Aviation Weather API for airport identifiers
-        const res = await fetch(
-          `https://aviationweather.gov/api/data/airport?ids=${q.toUpperCase()}&format=json`
-        );
+        const res = await fetch(`/api/airport?id=${q.toUpperCase()}`);
         const json = await res.json();
-        const airport = Array.isArray(json) ? json[0] : null;
-        if (!airport?.lat || !airport?.lon) { setSearchError(true); return; }
-        lat = airport.lat;
-        lng = airport.lon;
+        if (!res.ok || !json.lat || !json.lng) { setSearchError(true); return; }
+        lat = json.lat;
+        lng = json.lng;
       } else {
         const encoded = encodeURIComponent(q);
         const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
