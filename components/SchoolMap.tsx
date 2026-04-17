@@ -44,7 +44,6 @@ function SchoolPin({ onClick }: { onClick: () => void }) {
 
 export default function SchoolMap() {
   const mapRef = useRef<MapRef>(null);
-  void mapRef;
 
   const [schools, setSchools] = useState<School[]>([]);
   const [selected, setSelected] = useState<School | null>(null);
@@ -52,6 +51,9 @@ export default function SchoolMap() {
   const [fetchError, setFetchError] = useState(false);
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
   const [panelOpen, setPanelOpen] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchError, setSearchError] = useState(false);
+  const [searching, setSearching] = useState(false);
 
   const filtersRef = useRef(filters);
   filtersRef.current = filters;
@@ -95,6 +97,30 @@ export default function SchoolMap() {
 
   function clearFilters() {
     setFilters(DEFAULT_FILTERS);
+  }
+
+  async function handleSearch(e: React.FormEvent) {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    if (!q) return;
+    setSearching(true);
+    setSearchError(false);
+    try {
+      const encoded = encodeURIComponent(q);
+      const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+      const res = await fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encoded}.json?access_token=${token}&country=US&types=place,locality,district,region,airport&limit=1`
+      );
+      const json = await res.json();
+      const feature = json.features?.[0];
+      if (!feature) { setSearchError(true); return; }
+      const [lng, lat] = feature.center;
+      mapRef.current?.flyTo({ center: [lng, lat], zoom: 10, duration: 1200 });
+    } catch {
+      setSearchError(true);
+    } finally {
+      setSearching(false);
+    }
   }
 
   const active = isActive(filters);
@@ -197,6 +223,30 @@ export default function SchoolMap() {
               </span>
             )}
           </button>
+        )}
+      </div>
+
+      {/* Search bar */}
+      <div className="absolute top-4 right-4 z-10">
+        <form onSubmit={handleSearch} className="flex gap-2">
+          <input
+            value={searchQuery}
+            onChange={(e) => { setSearchQuery(e.target.value); setSearchError(false); }}
+            placeholder="City or airport (e.g. Dallas, KPAO)"
+            className={`w-48 sm:w-64 px-3 py-2 text-sm rounded-lg border shadow-lg bg-white text-[#1D3557] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#457B9D] transition ${
+              searchError ? "border-[#E63946]" : "border-gray-200"
+            }`}
+          />
+          <button
+            type="submit"
+            disabled={searching}
+            className="px-3 py-2 bg-[#1D3557] text-[#F1FAEE] text-sm font-semibold rounded-lg shadow-lg hover:bg-[#16293f] disabled:opacity-50 transition-colors"
+          >
+            {searching ? "…" : "Go"}
+          </button>
+        </form>
+        {searchError && (
+          <p className="text-xs text-[#E63946] mt-1 text-right">Location not found.</p>
         )}
       </div>
 
