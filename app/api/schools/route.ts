@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
   // filter by certifications in application code
   if (certFilter.length > 0) {
     schools = schools.filter((school) =>
-      certFilter.every((cert) =>
+      certFilter.some((cert) =>
         school.certifications.some((c: { cert_type: string }) => c.cert_type === cert)
       )
     );

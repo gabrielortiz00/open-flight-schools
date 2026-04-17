@@ -49,6 +49,7 @@ export default function SchoolMap() {
   const [schools, setSchools] = useState<School[]>([]);
   const [selected, setSelected] = useState<School | null>(null);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
   const [panelOpen, setPanelOpen] = useState(true);
 
@@ -57,8 +58,14 @@ export default function SchoolMap() {
 
   const fetchSchools = useCallback(async () => {
     setLoading(true);
-    const res = await fetch(buildUrl(filtersRef.current));
-    if (res.ok) setSchools(await res.json());
+    setFetchError(false);
+    try {
+      const res = await fetch(buildUrl(filtersRef.current));
+      if (res.ok) setSchools(await res.json());
+      else setFetchError(true);
+    } catch {
+      setFetchError(true);
+    }
     setLoading(false);
   }, []);
 
@@ -193,10 +200,16 @@ export default function SchoolMap() {
         )}
       </div>
 
-      {/* Loading indicator */}
+      {/* Loading / error indicator */}
       {loading && (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-[#1D3557] text-[#F1FAEE] px-4 py-2 rounded shadow-lg text-sm font-medium tracking-wide pointer-events-none">
           Loading…
+        </div>
+      )}
+      {fetchError && !loading && (
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-[#E63946] text-white px-4 py-2 rounded shadow-lg text-sm font-medium flex items-center gap-2">
+          <span>Failed to load schools.</span>
+          <button onClick={fetchSchools} className="underline hover:no-underline">Retry</button>
         </div>
       )}
 

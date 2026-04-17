@@ -94,10 +94,10 @@ export default function ContributionForm({
           Your {isEdit ? "edit suggestion" : "new school"} will be reviewed by our team before it goes live.
         </p>
         <button
-          onClick={() => router.back()}
+          onClick={() => router.push("/")}
           className="text-sm text-[#457B9D] hover:text-[#1D3557] font-medium transition-colors"
         >
-          ← Go back
+          ← Back to map
         </button>
       </div>
     );

@@ -10,5 +10,10 @@ export async function GET(request: NextRequest) {
     await supabase.auth.exchangeCodeForSession(code);
   }
 
+  const next = searchParams.get("next");
+  if (next?.startsWith("/")) {
+    return NextResponse.redirect(`${origin}${next}`);
+  }
+
   return NextResponse.redirect(origin);
 }

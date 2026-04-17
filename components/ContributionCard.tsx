@@ -17,6 +17,7 @@ export default function ContributionCard({ contribution }: { contribution: Contr
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState<"approve" | "reject" | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [done, setDone] = useState<"approved" | "rejected" | null>(null);
 
   const d = contribution.data;
   const isEdit = !!contribution.school_id;
@@ -39,7 +40,21 @@ export default function ContributionCard({ contribution }: { contribution: Contr
       return;
     }
 
-    router.refresh();
+    setDone(action === "approve" ? "approved" : "rejected");
+    setTimeout(() => router.refresh(), 800);
+  }
+
+  if (done) {
+    return (
+      <div className={`rounded-xl border px-5 py-4 text-sm font-semibold flex items-center gap-2 ${
+        done === "approved"
+          ? "bg-green-50 border-green-200 text-green-700"
+          : "bg-red-50 border-red-200 text-[#E63946]"
+      }`}>
+        <span>{done === "approved" ? "✓" : "✕"}</span>
+        <span>{typeof d.name === "string" ? d.name : "Contribution"} — {done}</span>
+      </div>
+    );
   }
 
   return (
