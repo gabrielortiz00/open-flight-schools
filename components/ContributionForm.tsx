@@ -13,6 +13,7 @@ const US_STATES = [
 
 interface SchoolData {
   name: string; address: string; city: string; state: string; zip: string;
+  airport_id: string;
   part_61: boolean; part_141: boolean;
   website: string; phone: string; email: string; description: string;
   certifications: string[]; fleet: string[];
@@ -20,6 +21,7 @@ interface SchoolData {
 
 const empty: SchoolData = {
   name: "", address: "", city: "", state: "", zip: "",
+  airport_id: "",
   part_61: false, part_141: false,
   website: "", phone: "", email: "", description: "",
   certifications: [], fleet: [],
@@ -162,6 +164,17 @@ export default function ContributionForm({
               placeholder="90401"
               className={inputClass}
             />
+          </div>
+          <div>
+            <label className={labelClass}>Airport identifier</label>
+            <input
+              value={form.airport_id}
+              onChange={(e) => set("airport_id", e.target.value.toUpperCase())}
+              maxLength={5}
+              placeholder="e.g. SMO, KPAO, 52F"
+              className={inputClass}
+            />
+            <p className="text-xs text-gray-400 mt-1">FAA identifier for the airport this school operates from</p>
           </div>
         </div>
 

@@ -102,6 +102,13 @@ export async function POST(request: NextRequest) {
     }
   }
 
+  // validate airport_id (optional)
+  if (d.airport_id !== undefined && d.airport_id !== null && d.airport_id !== "") {
+    if (typeof d.airport_id !== "string" || !/^[A-Z0-9]{2,5}$/.test((d.airport_id as string).toUpperCase())) {
+      return NextResponse.json({ error: "Invalid airport identifier. Use 2–5 uppercase letters/numbers (e.g. SMO, KPAO)." }, { status: 400 });
+    }
+  }
+
   // sanitize and store
   const sanitized = {
     name: d.name.trim(),
@@ -109,6 +116,7 @@ export async function POST(request: NextRequest) {
     city: (d.city as string).trim(),
     state: (d.state as string).toUpperCase(),
     zip: (d.zip as string).trim(),
+    airport_id: typeof d.airport_id === "string" && d.airport_id.trim() ? d.airport_id.trim().toUpperCase() : null,
     part_61: d.part_61,
     part_141: d.part_141,
     website: typeof d.website === "string" && d.website.trim() ? d.website.trim() : null,

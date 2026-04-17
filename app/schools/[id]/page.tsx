@@ -48,7 +48,7 @@ export default async function SchoolPage({ params }: Props) {
   const { data: school } = await supabase
     .from("schools")
     .select(`
-      id, name, address, city, state, zip,
+      id, name, address, city, state, zip, airport_id,
       part_61, part_141, website, phone, email, description, status,
       certifications (cert_type),
       fleet (aircraft),
@@ -97,6 +97,11 @@ export default async function SchoolPage({ params }: Props) {
           </p>
 
           <div className="flex gap-2 mt-4 flex-wrap">
+            {school.airport_id && (
+              <span className="font-mono text-xs bg-white/10 text-[#F1FAEE] border border-white/20 px-3 py-1 rounded-full font-medium tracking-wider">
+                {school.airport_id}
+              </span>
+            )}
             {school.part_141 && (
               <span className="font-mono text-xs bg-[#457B9D]/30 text-[#A8DADC] border border-[#457B9D]/40 px-3 py-1 rounded-full font-medium">
                 Part 141
