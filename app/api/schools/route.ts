@@ -1,13 +1,15 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
-const VALID_CERTS = new Set(["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"]);
-
-function parseCoord(val: string | null): number | null {
-  if (val === null) return null;
-  const n = Number(val);
-  return Number.isFinite(n) ? n : null;
+// Decode PostGIS EWKB hex into { lng, lat }
+function parseEWKB(hex: string): { lng: number; lat: number } {
+  const offset = 18; // skip 1 byte order + 4 type + 4 SRID = 9 bytes = 18 hex chars
+  const lng = Buffer.from(hex.slice(offset, offset + 16), "hex").readDoubleLE(0);
+  const lat = Buffer.from(hex.slice(offset + 16, offset + 32), "hex").readDoubleLE(0);
+  return { lng, lat };
 }
+
+const VALID_CERTS = new Set(["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"]);
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -15,17 +17,6 @@ export async function GET(request: NextRequest) {
   const part61 = searchParams.get("part61");
   const part141 = searchParams.get("part141");
   const certsParam = searchParams.get("certs");
-
-  // validate bounding box — reject non-finite values to prevent PostGIS injection
-  const minLng = parseCoord(searchParams.get("minLng"));
-  const maxLng = parseCoord(searchParams.get("maxLng"));
-  const minLat = parseCoord(searchParams.get("minLat"));
-  const maxLat = parseCoord(searchParams.get("maxLat"));
-
-  const hasBbox = searchParams.has("minLng");
-  if (hasBbox && (minLng === null || maxLng === null || minLat === null || maxLat === null)) {
-    return NextResponse.json({ error: "Invalid bounding box parameters." }, { status: 400 });
-  }
 
   // validate cert filter values against known set
   let certFilter: string[] = [];
@@ -55,15 +46,6 @@ export async function GET(request: NextRequest) {
     `)
     .eq("status", "published");
 
-  // bounding box filter using validated numeric values
-  if (hasBbox && minLng !== null && maxLng !== null && minLat !== null && maxLat !== null) {
-    query = query.filter(
-      "location",
-      "ov",
-      `[${minLng},${minLat},${maxLng},${maxLat}]`
-    );
-  }
-
   if (part61 === "true") query = query.eq("part_61", true);
   if (part141 === "true") query = query.eq("part_141", true);
 
@@ -85,5 +67,10 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  return NextResponse.json(schools);
+  const parsed = schools.map(({ location, ...rest }) => ({
+    ...rest,
+    ...parseEWKB(location as string),
+  }));
+
+  return NextResponse.json(parsed);
 }
