@@ -18,7 +18,7 @@ export default async function ProfilePage() {
 
   const { data: contributions } = await supabase
     .from("contributions")
-    .select("id, school_id, data, status, created_at, reviewed_at, reviewer_notes")
+    .select("id, school_id, data, status, created_at, reviewed_at, reviewer_notes, schools(slug)")
     .eq("submitted_by", user.id)
     .order("created_at", { ascending: false });
 
@@ -72,7 +72,7 @@ export default async function ProfilePage() {
                       </p>
                       {status === "approved" && c.school_id && (
                         <Link
-                          href={`/schools/${c.school_id}`}
+                          href={`/schools/${(c.schools as unknown as { slug: string } | null)?.slug ?? c.school_id}`}
                           className="text-xs text-[#457B9D] hover:text-[#1D3557] font-medium transition-colors mt-1 block"
                         >
                           View listing →

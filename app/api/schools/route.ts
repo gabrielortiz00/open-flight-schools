@@ -32,6 +32,7 @@ export async function GET(request: NextRequest) {
     .from("schools")
     .select(`
       id,
+      slug,
       name,
       city,
       state,

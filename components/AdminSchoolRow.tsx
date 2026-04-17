@@ -6,6 +6,7 @@ import { useState } from "react";
 
 interface School {
   id: string;
+  slug: string;
   name: string;
   city: string;
   state: string;
@@ -35,7 +36,7 @@ export default function AdminSchoolRow({ school }: { school: School }) {
   return (
     <div className="flex items-center justify-between px-5 py-3 gap-4">
       <div className="min-w-0">
-        <Link href={`/schools/${school.id}`} className="font-medium text-[#1D3557] hover:text-[#457B9D] transition-colors text-sm truncate block">
+        <Link href={`/schools/${school.slug}`} className="font-medium text-[#1D3557] hover:text-[#457B9D] transition-colors text-sm truncate block">
           {school.name}
         </Link>
         <p className="text-xs text-gray-400">{school.city}, {school.state}</p>

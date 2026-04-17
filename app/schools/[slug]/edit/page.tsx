@@ -4,11 +4,11 @@ import Link from "next/link";
 import ContributionForm from "@/components/ContributionForm";
 
 interface Props {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }
 
 export default async function EditSchoolPage({ params }: Props) {
-  const { id } = await params;
+  const { slug } = await params;
   const supabase = await createClient();
 
   const { data: { user } } = await supabase.auth.getUser();
@@ -17,12 +17,12 @@ export default async function EditSchoolPage({ params }: Props) {
   const { data: school } = await supabase
     .from("schools")
     .select(`
-      id, name, address, city, state, zip,
+      id, slug, name, address, city, state, zip,
       part_61, part_141, website, phone, email, description,
       certifications (cert_type),
       fleet (aircraft)
     `)
-    .eq("id", id)
+    .eq("slug", slug)
     .eq("status", "published")
     .single();
 
@@ -47,7 +47,7 @@ export default async function EditSchoolPage({ params }: Props) {
   return (
     <div className="max-w-2xl mx-auto px-6 py-8 space-y-6">
       <div>
-        <Link href={`/schools/${id}`} className="text-sm text-blue-600 hover:underline">
+        <Link href={`/schools/${school.slug}`} className="text-sm text-blue-600 hover:underline">
           ← Back to {school.name}
         </Link>
         <h1 className="text-2xl font-bold text-gray-900 mt-3">Suggest an edit</h1>
@@ -55,7 +55,7 @@ export default async function EditSchoolPage({ params }: Props) {
           Your edit will be reviewed before it goes live.
         </p>
       </div>
-      <ContributionForm schoolId={id} initial={initial} />
+      <ContributionForm schoolId={school.id} initial={initial} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { isAdmin } from "@/lib/auth";
 import { UUID_RE } from "@/lib/constants";
+import { toSlug } from "@/lib/utils";
 import type { Contribution } from "@/types/contribution";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -93,6 +94,7 @@ export async function PATCH(
         phone: d.phone || null,
         email: d.email || null,
         description: d.description || null,
+        slug: toSlug(d.name, d.city, d.state),
       })
       .eq("id", contribution.school_id);
 
@@ -149,6 +151,7 @@ export async function PATCH(
         email: d.email || null,
         description: d.description || null,
         location: `POINT(${coords.lng} ${coords.lat})`,
+        slug: toSlug(d.name, d.city, d.state),
         status: "published",
         submitted_by: c.submitted_by,
       })

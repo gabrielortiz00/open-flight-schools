@@ -1,5 +1,6 @@
 export interface School {
   id: string;
+  slug: string;
   name: string;
   city: string;
   state: string;

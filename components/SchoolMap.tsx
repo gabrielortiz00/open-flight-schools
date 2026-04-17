@@ -324,7 +324,7 @@ export default function SchoolMap() {
                 )}
               </div>
               <a
-                href={`/schools/${selected.id}`}
+                href={`/schools/${selected.slug}`}
                 className="block mt-3 text-xs font-semibold text-[#457B9D] hover:text-[#1D3557] transition-colors"
               >
                 View details →

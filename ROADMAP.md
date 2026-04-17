@@ -115,7 +115,7 @@ Schema and feature decisions that are hard or painful to change once schools, UR
 ### 🔴 Do first (breaking/risky to change later)
 
 - [x] **Write migration to sync production schema** — `airport_id` was added manually to the DB; the migration file doesn't have it. Also fixes F-05 from security audit (vulnerable RLS UPDATE policy still in migration file). One new migration captures both.
-- [ ] **Add `slug` column to `schools`** — SEO-friendly URLs (`/schools/journeys-aviation-boulder-co`) instead of UUID paths. Breaking URL change if done after traffic/inbound links exist.
+- [x] **Add `slug` column to `schools`** — SEO-friendly URLs (`/schools/journeys-aviation-boulder-co`) instead of UUID paths. Breaking URL change if done after traffic/inbound links exist.
 - [ ] **Add `display_name` to `profiles`** — reviews currently show no reviewer identity. Needs to exist before reviews accumulate; backfilling is possible but messy.
 
 ### 🟡 Do before data import push

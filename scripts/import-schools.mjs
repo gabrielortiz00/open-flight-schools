@@ -18,6 +18,14 @@ if (!SUPABASE_URL || !SUPABASE_SECRET_KEY || !MAPBOX_TOKEN) {
 
 const VALID_CERTS = new Set(["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"]);
 
+function toSlug(name, city, state) {
+  return `${name} ${city} ${state}`
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}
+
 const supabase = createClient(SUPABASE_URL, SUPABASE_SECRET_KEY);
 
 function parseCSV(content) {
@@ -88,6 +96,7 @@ async function importRow(row, index) {
       state: row.state.trim().toUpperCase(),
       zip: row.zip.trim(),
       airport_id: row.airport_id?.trim().toUpperCase() || null,
+      slug: toSlug(row.name.trim(), row.city.trim(), row.state.trim()),
       part_61: parseBool(row.part_61),
       part_141: parseBool(row.part_141),
       website: row.website?.trim() || null,

@@ -45,7 +45,7 @@ export default async function SchoolsPage({ searchParams }: Props) {
 
   let query = supabase
     .from("schools")
-    .select("id, name, city, state, part_61, part_141, certifications (cert_type), reviews (rating)", { count: "exact" })
+    .select("id, slug, name, city, state, part_61, part_141, certifications (cert_type), reviews (rating)", { count: "exact" })
     .eq("status", "published")
     .order("name")
     .range(from, to);
@@ -149,7 +149,7 @@ export default async function SchoolsPage({ searchParams }: Props) {
                 return (
                   <Link
                     key={school.id}
-                    href={`/schools/${school.id}`}
+                    href={`/schools/${school.slug}`}
                     className="flex items-center justify-between px-5 py-4 hover:bg-[#F1FAEE] transition-colors group"
                   >
                     <div className="min-w-0">

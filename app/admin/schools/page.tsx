@@ -16,7 +16,7 @@ export default async function AdminSchoolsPage() {
 
   const { data: schools } = await supabase
     .from("schools")
-    .select("id, name, city, state, status, created_at")
+    .select("id, slug, name, city, state, status, created_at")
     .order("name");
 
   const published = schools?.filter((s) => s.status === "published") ?? [];

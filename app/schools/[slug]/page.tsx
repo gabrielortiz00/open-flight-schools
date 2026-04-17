@@ -6,15 +6,15 @@ import ReviewForm from "@/components/ReviewForm";
 import AdminDeleteReview from "@/components/AdminDeleteReview";
 import type { Metadata } from "next";
 
-interface Props { params: Promise<{ id: string }>; }
+interface Props { params: Promise<{ slug: string }>; }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
+  const { slug } = await params;
   const supabase = await createClient();
   const { data: school } = await supabase
     .from("schools")
     .select("name, city, state, description")
-    .eq("id", id)
+    .eq("slug", slug)
     .eq("status", "published")
     .single();
 
@@ -36,7 +36,7 @@ function CertBadge({ label }: { label: string }) {
 }
 
 export default async function SchoolPage({ params }: Props) {
-  const { id } = await params;
+  const { slug } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -45,14 +45,14 @@ export default async function SchoolPage({ params }: Props) {
   const { data: school } = await supabase
     .from("schools")
     .select(`
-      id, name, address, city, state, zip, airport_id,
+      id, slug, name, address, city, state, zip, airport_id,
       part_61, part_141, website, phone, email, description, status,
       certifications (cert_type),
       fleet (aircraft),
       pricing (cert_type, price_low, price_high),
       reviews (id, rating, body, created_at)
     `)
-    .eq("id", id)
+    .eq("slug", slug)
     .eq("status", "published")
     .single();
 
@@ -81,7 +81,7 @@ export default async function SchoolPage({ params }: Props) {
               ← All schools
             </Link>
             <Link
-              href={`/schools/${id}/edit`}
+              href={`/schools/${school.slug}/edit`}
               className="text-sm text-[#A8DADC]/70 hover:text-[#A8DADC] transition-colors"
             >
               Suggest an edit
