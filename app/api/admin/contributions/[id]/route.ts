@@ -1,7 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
+import { isAdmin } from "@/lib/auth";
+import { UUID_RE } from "@/lib/constants";
+import type { Contribution } from "@/types/contribution";
 import { NextRequest, NextResponse } from "next/server";
-
-const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 async function geocode(address: string, city: string, state: string, zip: string) {
   const query = encodeURIComponent(`${address}, ${city}, ${state} ${zip}, USA`);
@@ -14,15 +15,6 @@ async function geocode(address: string, city: string, state: string, zip: string
   const [lng, lat] = json.features?.[0]?.center ?? [];
   if (typeof lng !== "number" || typeof lat !== "number") return null;
   return { lng, lat };
-}
-
-async function isAdmin(supabase: Awaited<ReturnType<typeof createClient>>, userId: string) {
-  const { data } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", userId)
-    .single();
-  return data?.role === "admin";
 }
 
 export async function PATCH(
@@ -80,8 +72,9 @@ export async function PATCH(
   }
 
   // --- APPROVE ---
-  const d = contribution.data as Record<string, unknown>;
-  const isEdit = !!contribution.school_id;
+  const c = contribution as unknown as Contribution;
+  const d = c.data;
+  const isEdit = !!c.school_id;
 
   if (isEdit) {
     // update existing school
@@ -110,33 +103,28 @@ export async function PATCH(
 
     // replace certifications
     await supabase.from("certifications").delete().eq("school_id", contribution.school_id);
-    if (Array.isArray(d.certifications) && d.certifications.length > 0) {
+    if (d.certifications && d.certifications.length > 0) {
       await supabase.from("certifications").insert(
-        (d.certifications as string[]).map((cert_type) => ({
-          school_id: contribution.school_id,
+        d.certifications.map((cert_type) => ({
+          school_id: c.school_id,
           cert_type,
         }))
       );
     }
 
     // replace fleet
-    await supabase.from("fleet").delete().eq("school_id", contribution.school_id);
-    if (Array.isArray(d.fleet) && d.fleet.length > 0) {
+    await supabase.from("fleet").delete().eq("school_id", c.school_id);
+    if (d.fleet && d.fleet.length > 0) {
       await supabase.from("fleet").insert(
-        (d.fleet as string[]).map((aircraft) => ({
-          school_id: contribution.school_id,
+        d.fleet.map((aircraft) => ({
+          school_id: c.school_id,
           aircraft,
         }))
       );
     }
   } else {
     // new school — geocode address first
-    const coords = await geocode(
-      d.address as string,
-      d.city as string,
-      d.state as string,
-      d.zip as string
-    );
+    const coords = await geocode(d.address, d.city, d.state, d.zip);
 
     if (!coords) {
       return NextResponse.json(
@@ -162,7 +150,7 @@ export async function PATCH(
         description: d.description || null,
         location: `POINT(${coords.lng} ${coords.lat})`,
         status: "published",
-        submitted_by: contribution.submitted_by,
+        submitted_by: c.submitted_by,
       })
       .select("id")
       .single();
@@ -172,18 +160,18 @@ export async function PATCH(
       return NextResponse.json({ error: "Failed to create school." }, { status: 500 });
     }
 
-    if (Array.isArray(d.certifications) && d.certifications.length > 0) {
+    if (d.certifications && d.certifications.length > 0) {
       await supabase.from("certifications").insert(
-        (d.certifications as string[]).map((cert_type) => ({
+        d.certifications.map((cert_type) => ({
           school_id: newSchool.id,
           cert_type,
         }))
       );
     }
 
-    if (Array.isArray(d.fleet) && d.fleet.length > 0) {
+    if (d.fleet && d.fleet.length > 0) {
       await supabase.from("fleet").insert(
-        (d.fleet as string[]).map((aircraft) => ({
+        d.fleet.map((aircraft) => ({
           school_id: newSchool.id,
           aircraft,
         }))

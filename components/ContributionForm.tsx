@@ -2,14 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
-const CERT_OPTIONS = ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"];
-const US_STATES = [
-  "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA",
-  "KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
-  "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT",
-  "VA","WA","WV","WI","WY","DC",
-];
+import { CERT_OPTIONS, US_STATES } from "@/lib/constants";
 
 interface SchoolData {
   name: string; address: string; city: string; state: string; zip: string;

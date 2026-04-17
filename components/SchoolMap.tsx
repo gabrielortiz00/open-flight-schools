@@ -3,8 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Map, { MapRef, Marker, Popup } from "react-map-gl/mapbox";
 import type { School } from "@/types/school";
-
-const CERT_OPTIONS = ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"];
+import { CERT_OPTIONS } from "@/lib/constants";
 
 interface Filters {
   part61: boolean;

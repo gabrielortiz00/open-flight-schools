@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { CERT_OPTIONS } from "@/lib/constants";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -9,8 +10,6 @@ export const metadata: Metadata = {
 
 interface SearchParams { q?: string; state?: string; cert?: string; page?: string; }
 interface Props { searchParams: Promise<SearchParams>; }
-
-const CERT_OPTIONS = ["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"];
 const PAGE_SIZE = 25;
 
 const inputClass =

@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { isAdmin as checkIsAdmin } from "@/lib/auth";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import ReviewForm from "@/components/ReviewForm";
@@ -39,11 +40,7 @@ export default async function SchoolPage({ params }: Props) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  let isAdmin = false;
-  if (user) {
-    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-    isAdmin = profile?.role === "admin";
-  }
+  const isAdmin = user ? await checkIsAdmin(supabase, user.id) : false;
 
   const { data: school } = await supabase
     .from("schools")

@@ -1,14 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
+import { UUID_RE, VALID_CERTS, VALID_STATES } from "@/lib/constants";
 import { NextRequest, NextResponse } from "next/server";
-
-const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const VALID_CERTS = new Set(["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"]);
-const VALID_STATES = new Set([
-  "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA",
-  "KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
-  "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT",
-  "VA","WA","WV","WI","WY","DC",
-]);
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();

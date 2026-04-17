@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { VALID_CERTS } from "@/lib/constants";
 import { NextRequest, NextResponse } from "next/server";
 
 // Decode PostGIS EWKB hex into { lng, lat }
@@ -8,8 +9,6 @@ function parseEWKB(hex: string): { lng: number; lat: number } {
   const lat = Buffer.from(hex.slice(offset + 16, offset + 32), "hex").readDoubleLE(0);
   return { lng, lat };
 }
-
-const VALID_CERTS = new Set(["PPL", "IR", "CPL", "MEL", "CFI", "CFII", "ATP"]);
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
