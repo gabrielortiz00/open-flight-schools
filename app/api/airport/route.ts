@@ -8,18 +8,23 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Invalid airport identifier." }, { status: 400 });
   }
 
-  const res = await fetch(
-    `https://aviationweather.gov/api/data/airport?ids=${id}&format=json`,
-    { next: { revalidate: 86400 } }
-  );
+  // Try the identifier as-is, then with K prefix if 3 chars and not already K-prefixed
+  const candidates = [id];
+  if (id.length === 3 && /^[A-Z]/.test(id)) candidates.push(`K${id}`);
 
-  if (!res.ok) {
-    return NextResponse.json({ error: "Airport lookup failed." }, { status: 502 });
+  let airport = null;
+  for (const candidate of candidates) {
+    const res = await fetch(
+      `https://aviationweather.gov/api/data/airport?ids=${candidate}&format=json`,
+      { next: { revalidate: 86400 } }
+    );
+    if (!res.ok) continue;
+    const json = await res.json();
+    const result = Array.isArray(json) ? json[0] : null;
+    if (result?.lat && result?.lon) { airport = result; break; }
   }
 
-  const json = await res.json();
-  const airport = Array.isArray(json) ? json[0] : null;
-  if (!airport?.lat || !airport?.lon) {
+  if (!airport) {
     return NextResponse.json({ error: "Airport not found." }, { status: 404 });
   }
 
