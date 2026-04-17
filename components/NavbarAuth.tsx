@@ -17,13 +17,16 @@ export default function NavbarAuth({ user }: { user: User | null }) {
 
   if (!user) {
     return (
-      <div className="flex items-center gap-3">
-        <Link href="/auth/login" className="text-sm text-gray-600 hover:text-gray-900">
+      <div className="flex items-center gap-2">
+        <Link
+          href="/auth/login"
+          className="text-sm text-[#A8DADC]/80 hover:text-[#F1FAEE] px-3 py-4 transition-colors"
+        >
           Sign in
         </Link>
         <Link
           href="/auth/signup"
-          className="text-sm bg-blue-600 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 transition-colors"
+          className="text-sm bg-[#457B9D] text-white px-4 py-1.5 rounded hover:bg-[#3a6987] transition-colors font-medium"
         >
           Sign up
         </Link>
@@ -33,10 +36,10 @@ export default function NavbarAuth({ user }: { user: User | null }) {
 
   return (
     <div className="flex items-center gap-4">
-      <span className="text-sm text-gray-500">{user.email}</span>
+      <span className="text-xs text-[#A8DADC]/60 hidden sm:block">{user.email}</span>
       <button
         onClick={handleSignOut}
-        className="text-sm text-gray-600 hover:text-gray-900"
+        className="text-sm text-[#A8DADC]/80 hover:text-[#F1FAEE] transition-colors"
       >
         Sign out
       </button>

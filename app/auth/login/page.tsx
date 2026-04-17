@@ -5,6 +5,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+const inputClass =
+  "w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-[#1D3557] bg-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#457B9D] focus:border-transparent transition";
+
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -31,55 +34,58 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="bg-white rounded-xl border p-8 w-full max-w-sm space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Sign in</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Don&apos;t have an account?{" "}
-            <Link href="/auth/signup" className="text-blue-600 hover:underline">
-              Sign up
-            </Link>
-          </p>
+    <div className="flex-1 flex items-center justify-center px-4 py-12 bg-[#F1FAEE]">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-8">
+          <Link href="/" className="inline-flex items-center gap-2 text-[#1D3557] font-display font-semibold text-lg hover:text-[#457B9D] transition-colors">
+            <span className="text-[#457B9D]">✈</span>
+            Open Flight Schools
+          </Link>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+        <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
+          <h1 className="font-display text-2xl font-bold text-[#1D3557] mb-1">Sign in</h1>
+          <p className="text-sm text-gray-500 mb-6">
+            No account?{" "}
+            <Link href="/auth/signup" className="text-[#457B9D] hover:text-[#1D3557] font-medium transition-colors">
+              Create one
+            </Link>
+          </p>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-[#1D3557] mb-1.5">Email</label>
+              <input
+                type="email" required value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className={inputClass}
+              />
+            </div>
 
-          {error && <p className="text-sm text-red-600">{error}</p>}
+            <div>
+              <label className="block text-sm font-semibold text-[#1D3557] mb-1.5">Password</label>
+              <input
+                type="password" required value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={inputClass}
+              />
+            </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white rounded-lg py-2 text-sm font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
-          >
-            {loading ? "Signing in..." : "Sign in"}
-          </button>
-        </form>
+            {error && (
+              <p className="text-sm text-[#E63946] bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                {error}
+              </p>
+            )}
+
+            <button
+              type="submit" disabled={loading}
+              className="w-full bg-[#1D3557] text-[#F1FAEE] rounded-lg py-2.5 text-sm font-semibold hover:bg-[#16293f] disabled:opacity-50 transition-colors mt-2"
+            >
+              {loading ? "Signing in…" : "Sign in"}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

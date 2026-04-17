@@ -21,22 +21,21 @@ export default function ReviewForm({
   if (!userEmail) {
     return (
       <p className="text-sm text-gray-500">
-        <a href="/auth/login" className="text-blue-600 hover:underline">Sign in</a>{" "}
+        <a href="/auth/login" className="text-[#457B9D] hover:text-[#1D3557] font-medium underline-offset-2 hover:underline transition-colors">
+          Sign in
+        </a>{" "}
         to leave a review.
       </p>
     );
   }
 
   if (done) {
-    return <p className="text-sm text-green-600 font-medium">Thanks for your review!</p>;
+    return <p className="text-sm text-green-700 font-medium">Thanks for your review!</p>;
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (rating === 0) {
-      setError("Please select a rating.");
-      return;
-    }
+    if (rating === 0) { setError("Please select a rating."); return; }
     setError(null);
     setLoading(true);
 
@@ -59,10 +58,9 @@ export default function ReviewForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 pt-4 border-t">
-      <h3 className="font-medium text-gray-900">Write a review</h3>
+    <form onSubmit={handleSubmit} className="space-y-4 pt-4 border-t border-gray-100">
+      <h3 className="font-display font-semibold text-[#1D3557]">Write a review</h3>
 
-      {/* Star selector */}
       <div className="flex gap-1">
         {[1, 2, 3, 4, 5].map((star) => (
           <button
@@ -71,9 +69,9 @@ export default function ReviewForm({
             onClick={() => setRating(star)}
             onMouseEnter={() => setHovered(star)}
             onMouseLeave={() => setHovered(0)}
-            className="text-2xl leading-none focus:outline-none"
+            className="text-2xl leading-none focus:outline-none transition-transform hover:scale-110"
           >
-            <span className={(hovered || rating) >= star ? "text-yellow-400" : "text-gray-300"}>
+            <span className={(hovered || rating) >= star ? "text-amber-400" : "text-gray-200"}>
               ★
             </span>
           </button>
@@ -85,18 +83,18 @@ export default function ReviewForm({
         onChange={(e) => setBody(e.target.value)}
         maxLength={2000}
         rows={3}
-        placeholder="Share your experience (optional)"
-        className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+        placeholder="Share your experience — training quality, aircraft condition, instructors…"
+        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-[#1D3557] bg-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#457B9D] focus:border-transparent resize-none transition"
       />
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-[#E63946]">{error}</p>}
 
       <button
         type="submit"
         disabled={loading}
-        className="bg-blue-600 text-white text-sm px-5 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+        className="bg-[#1D3557] text-[#F1FAEE] text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-[#16293f] disabled:opacity-50 transition-colors"
       >
-        {loading ? "Submitting..." : "Submit review"}
+        {loading ? "Submitting…" : "Submit review"}
       </button>
     </form>
   );

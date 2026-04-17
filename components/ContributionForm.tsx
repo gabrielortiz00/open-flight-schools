@@ -12,19 +12,10 @@ const US_STATES = [
 ];
 
 interface SchoolData {
-  name: string;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-  part_61: boolean;
-  part_141: boolean;
-  website: string;
-  phone: string;
-  email: string;
-  description: string;
-  certifications: string[];
-  fleet: string[];
+  name: string; address: string; city: string; state: string; zip: string;
+  part_61: boolean; part_141: boolean;
+  website: string; phone: string; email: string; description: string;
+  certifications: string[]; fleet: string[];
 }
 
 const empty: SchoolData = {
@@ -33,6 +24,13 @@ const empty: SchoolData = {
   website: "", phone: "", email: "", description: "",
   certifications: [], fleet: [],
 };
+
+const inputClass =
+  "w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-[#1D3557] bg-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#457B9D] focus:border-transparent transition";
+
+const labelClass = "block text-sm font-semibold text-[#1D3557] mb-1.5";
+
+const sectionClass = "bg-white rounded-xl border border-gray-200 p-6 space-y-4 shadow-sm";
 
 export default function ContributionForm({
   schoolId,
@@ -68,18 +66,12 @@ export default function ContributionForm({
     setError(null);
     setLoading(true);
 
-    const fleet = fleetInput
-      .split(",")
-      .map((f) => f.trim())
-      .filter(Boolean);
+    const fleet = fleetInput.split(",").map((f) => f.trim()).filter(Boolean);
 
     const res = await fetch("/api/contributions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        school_id: schoolId ?? null,
-        data: { ...form, fleet },
-      }),
+      body: JSON.stringify({ school_id: schoolId ?? null, data: { ...form, fleet } }),
     });
 
     const data = await res.json();
@@ -95,14 +87,15 @@ export default function ContributionForm({
 
   if (done) {
     return (
-      <div className="bg-white rounded-xl border p-8 text-center space-y-3">
-        <h2 className="text-xl font-bold text-gray-900">Submission received</h2>
+      <div className="bg-white rounded-xl border border-gray-200 p-10 text-center space-y-3 shadow-sm">
+        <div className="text-3xl">✓</div>
+        <h2 className="font-display text-xl font-bold text-[#1D3557]">Submission received</h2>
         <p className="text-sm text-gray-500">
-          Thanks! Your {isEdit ? "edit" : "new school"} will be reviewed before it goes live.
+          Your {isEdit ? "edit suggestion" : "new school"} will be reviewed by our team before it goes live.
         </p>
         <button
           onClick={() => router.back()}
-          className="text-sm text-blue-600 hover:underline"
+          className="text-sm text-[#457B9D] hover:text-[#1D3557] font-medium transition-colors"
         >
           ← Go back
         </button>
@@ -111,141 +104,151 @@ export default function ContributionForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-5">
 
       {/* Basic info */}
-      <div className="bg-white rounded-xl border p-6 space-y-4">
-        <h2 className="font-semibold text-gray-900">School information</h2>
+      <div className={sectionClass}>
+        <h2 className="font-display font-semibold text-[#1D3557] text-base border-b border-gray-100 pb-3 -mt-1">
+          School information
+        </h2>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">School name *</label>
+          <label className={labelClass}>School name *</label>
           <input
             required value={form.name}
             onChange={(e) => set("name", e.target.value)}
             maxLength={200}
-            className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="e.g. Pacific Coast Flight Training"
+            className={inputClass}
           />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Address *</label>
+            <label className={labelClass}>Street address *</label>
             <input
               required value={form.address}
               onChange={(e) => set("address", e.target.value)}
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="123 Airport Rd"
+              className={inputClass}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">City *</label>
+            <label className={labelClass}>City *</label>
             <input
               required value={form.city}
               onChange={(e) => set("city", e.target.value)}
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Santa Monica"
+              className={inputClass}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">State *</label>
+            <label className={labelClass}>State *</label>
             <select
               required value={form.state}
               onChange={(e) => set("state", e.target.value)}
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={inputClass}
             >
               <option value="">Select state</option>
               {US_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">ZIP code *</label>
+            <label className={labelClass}>ZIP code *</label>
             <input
               required value={form.zip}
               onChange={(e) => set("zip", e.target.value)}
               pattern="^\d{5}(-\d{4})?$"
-              placeholder="12345"
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="90401"
+              className={inputClass}
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Training type *</label>
-          <div className="flex gap-4">
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox" checked={form.part_61}
-                onChange={(e) => set("part_61", e.target.checked)}
-              />
-              Part 61
-            </label>
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox" checked={form.part_141}
-                onChange={(e) => set("part_141", e.target.checked)}
-              />
-              Part 141
-            </label>
+          <label className={labelClass}>Training type *</label>
+          <div className="flex gap-6">
+            {[
+              { key: "part_61" as const, label: "Part 61" },
+              { key: "part_141" as const, label: "Part 141" },
+            ].map(({ key, label }) => (
+              <label key={key} className="flex items-center gap-2.5 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={form[key]}
+                  onChange={(e) => set(key, e.target.checked)}
+                  className="w-4 h-4 rounded accent-[#1D3557]"
+                />
+                <span className="text-sm font-medium text-[#1D3557]">{label}</span>
+              </label>
+            ))}
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+          <label className={labelClass}>Description</label>
           <textarea
             value={form.description}
             onChange={(e) => set("description", e.target.value)}
             maxLength={1000}
             rows={3}
-            placeholder="Brief description of the school"
-            className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            placeholder="Brief description of the school, aircraft available, specialties, etc."
+            className={inputClass + " resize-none"}
           />
+          <p className="text-xs text-gray-400 mt-1">{form.description.length}/1000</p>
         </div>
       </div>
 
       {/* Contact */}
-      <div className="bg-white rounded-xl border p-6 space-y-4">
-        <h2 className="font-semibold text-gray-900">Contact</h2>
+      <div className={sectionClass}>
+        <h2 className="font-display font-semibold text-[#1D3557] text-base border-b border-gray-100 pb-3 -mt-1">
+          Contact
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Website</label>
+            <label className={labelClass}>Website</label>
             <input
               type="url" value={form.website}
               onChange={(e) => set("website", e.target.value)}
               placeholder="https://example.com"
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={inputClass}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+            <label className={labelClass}>Phone</label>
             <input
               type="tel" value={form.phone}
               onChange={(e) => set("phone", e.target.value)}
               placeholder="(555) 123-4567"
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={inputClass}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label className={labelClass}>Email</label>
             <input
               type="email" value={form.email}
               onChange={(e) => set("email", e.target.value)}
               placeholder="info@school.com"
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={inputClass}
             />
           </div>
         </div>
       </div>
 
       {/* Certifications */}
-      <div className="bg-white rounded-xl border p-6">
-        <h2 className="font-semibold text-gray-900 mb-3">Certifications offered</h2>
+      <div className={sectionClass}>
+        <h2 className="font-display font-semibold text-[#1D3557] text-base border-b border-gray-100 pb-3 -mt-1">
+          Certifications offered
+        </h2>
         <div className="flex flex-wrap gap-2">
           {CERT_OPTIONS.map((cert) => (
             <button
               key={cert} type="button"
               onClick={() => toggleCert(cert)}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${
+              className={`font-mono text-xs px-3 py-1.5 rounded-full border font-medium transition-colors ${
                 form.certifications.includes(cert)
-                  ? "bg-blue-600 text-white border-blue-600"
-                  : "bg-white text-gray-600 border-gray-300 hover:border-blue-400"
+                  ? "bg-[#1D3557] text-[#F1FAEE] border-[#1D3557]"
+                  : "bg-white text-[#457B9D] border-[#A8DADC] hover:border-[#457B9D]"
               }`}
             >
               {cert}
@@ -255,28 +258,33 @@ export default function ContributionForm({
       </div>
 
       {/* Fleet */}
-      <div className="bg-white rounded-xl border p-6">
-        <h2 className="font-semibold text-gray-900 mb-1">Fleet</h2>
-        <p className="text-xs text-gray-400 mb-3">Comma-separated list of aircraft</p>
-        <input
-          value={fleetInput}
-          onChange={(e) => setFleetInput(e.target.value)}
-          placeholder="Cessna 172, Piper Seminole, Piper Arrow"
-          className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+      <div className={sectionClass}>
+        <h2 className="font-display font-semibold text-[#1D3557] text-base border-b border-gray-100 pb-3 -mt-1">
+          Fleet
+        </h2>
+        <div>
+          <label className={labelClass}>Aircraft types</label>
+          <input
+            value={fleetInput}
+            onChange={(e) => setFleetInput(e.target.value)}
+            placeholder="Cessna 172S, Piper Seminole, Piper Arrow IV"
+            className={inputClass}
+          />
+          <p className="text-xs text-gray-400 mt-1">Comma-separated list</p>
+        </div>
       </div>
 
       {error && (
-        <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+        <div className="text-sm text-[#E63946] bg-red-50 border border-red-200 rounded-lg px-4 py-3">
           {error}
-        </p>
+        </div>
       )}
 
       <button
         type="submit" disabled={loading}
-        className="w-full bg-blue-600 text-white rounded-lg py-3 text-sm font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
+        className="w-full bg-[#1D3557] text-[#F1FAEE] rounded-lg py-3 text-sm font-semibold hover:bg-[#16293f] disabled:opacity-50 transition-colors"
       >
-        {loading ? "Submitting..." : isEdit ? "Submit edit for review" : "Submit school for review"}
+        {loading ? "Submitting…" : isEdit ? "Submit edit for review" : "Submit school for review"}
       </button>
     </form>
   );

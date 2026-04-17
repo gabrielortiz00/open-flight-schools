@@ -1,27 +1,29 @@
 @import "tailwindcss";
 @import "mapbox-gl/dist/mapbox-gl.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-navy:    #1D3557;
+  --color-sky:     #457B9D;
+  --color-teal:    #A8DADC;
+  --color-offwhite:#F1FAEE;
+  --color-danger:  #E63946;
+  --font-sans:     var(--font-body);
+  --font-display:  var(--font-display);
+  --font-mono:     var(--font-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #F1FAEE;
+  color: #1D3557;
+}
+
+/* Fix input contrast — Tailwind v4 no longer sets color on form elements */
+input, select, textarea {
+  color: #1D3557;
+  background-color: #ffffff;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #94a3b8;
 }

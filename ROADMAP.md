@@ -57,18 +57,19 @@ Living document. Steps and priorities will shift as the project evolves.
 
 ## Phase 8 — Moderation
 
-- [ ] `/admin` route, gated to admin role
-- [ ] Queue view of all pending contributions
-- [ ] Approve (publish school / apply edits) or reject
+- [x] `/admin` route, gated to admin role
+- [x] Queue view of all pending contributions
+- [x] Approve (publish school / apply edits) or reject
 - [ ] Email notification to contributor on decision (optional)
 
 ## Phase 9 — Polish + Launch
 
-- [ ] SEO: metadata, sitemap, OpenGraph
-- [ ] School list/browse view (alternative to map for non-map users)
-- [ ] Search by school name
-- [ ] Mobile responsiveness
-- [ ] Rate limiting on API routes
+- [x] SEO: metadata + OpenGraph (root layout + per-school generateMetadata)
+- [x] School list/browse view (`/schools`) with name, state, and certification filters
+- [ ] Sitemap (`/sitemap.xml`)
+- [ ] Mobile responsiveness audit
+- [x] Rate limiting on API routes (sliding-window in middleware)
+- [x] Validate `school.website` starts with `https://` — done in contribution API + school detail page
 - [ ] Production data import — seed with comprehensive US school data
 
 ---
