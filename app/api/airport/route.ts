@@ -14,14 +14,18 @@ export async function GET(request: NextRequest) {
 
   let airport = null;
   for (const candidate of candidates) {
-    const res = await fetch(
-      `https://aviationweather.gov/api/data/airport?ids=${candidate}&format=json`,
-      { next: { revalidate: 86400 } }
-    );
-    if (!res.ok) continue;
-    const json = await res.json();
-    const result = Array.isArray(json) ? json[0] : null;
-    if (result?.lat && result?.lon) { airport = result; break; }
+    try {
+      const res = await fetch(
+        `https://aviationweather.gov/api/data/airport?ids=${candidate}&format=json`,
+        { next: { revalidate: 86400 } }
+      );
+      if (!res.ok) continue;
+      const json = await res.json();
+      const result = Array.isArray(json) ? json[0] : null;
+      if (result?.lat && result?.lon) { airport = result; break; }
+    } catch {
+      continue;
+    }
   }
 
   if (!airport) {
