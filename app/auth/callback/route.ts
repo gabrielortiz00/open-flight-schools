@@ -1,19 +1,33 @@
-import { createClient } from "@/lib/supabase/server";
+import { createServerClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl;
   const code = searchParams.get("code");
+  const next = searchParams.get("next");
+
+  const redirectTo = next?.startsWith("/") ? `${origin}${next}` : origin;
+  const response = NextResponse.redirect(redirectTo);
 
   if (code) {
-    const supabase = await createClient();
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              response.cookies.set(name, value, options)
+            );
+          },
+        },
+      }
+    );
     await supabase.auth.exchangeCodeForSession(code);
   }
 
-  const next = searchParams.get("next");
-  if (next?.startsWith("/")) {
-    return NextResponse.redirect(`${origin}${next}`);
-  }
-
-  return NextResponse.redirect(origin);
+  return response;
 }
