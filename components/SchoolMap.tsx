@@ -107,16 +107,30 @@ export default function SchoolMap() {
     setSearchError(false);
     try {
       const isAirportId = /^[A-Z0-9]{2,5}$/.test(q.toUpperCase());
-      const query = isAirportId ? `${q.toUpperCase()} airport` : q;
-      const encoded = encodeURIComponent(query);
-      const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-      const res = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encoded}.json?access_token=${token}&country=US&types=place,locality,district,region,poi&limit=1`
-      );
-      const json = await res.json();
-      const feature = json.features?.[0];
-      if (!feature) { setSearchError(true); return; }
-      const [lng, lat] = feature.center;
+      let lng: number, lat: number;
+
+      if (isAirportId) {
+        // Use FAA/NOAA Aviation Weather API for airport identifiers
+        const res = await fetch(
+          `https://aviationweather.gov/api/data/airport?ids=${q.toUpperCase()}&format=json`
+        );
+        const json = await res.json();
+        const airport = Array.isArray(json) ? json[0] : null;
+        if (!airport?.lat || !airport?.lon) { setSearchError(true); return; }
+        lat = airport.lat;
+        lng = airport.lon;
+      } else {
+        const encoded = encodeURIComponent(q);
+        const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+        const res = await fetch(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${encoded}.json?access_token=${token}&country=US&types=place,locality,district,region&limit=1`
+        );
+        const json = await res.json();
+        const feature = json.features?.[0];
+        if (!feature) { setSearchError(true); return; }
+        [lng, lat] = feature.center;
+      }
+
       mapRef.current?.flyTo({ center: [lng, lat], zoom: 10, duration: 1200 });
     } catch {
       setSearchError(true);
