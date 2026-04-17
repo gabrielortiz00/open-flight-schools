@@ -29,6 +29,14 @@ export default async function SchoolPage({ params }: Props) {
 
   if (!school) notFound();
 
+  const safeWebsite = (() => {
+    try {
+      const u = new URL(school.website ?? "");
+      return u.protocol === "https:" ? school.website : null;
+    } catch { return null; }
+  })();
+  const safeEmail = school.email?.replace(/[?&#].*$/, "") ?? null;
+
   const avgRating =
     school.reviews.length > 0
       ? school.reviews.reduce((sum: number, r: { rating: number }) => sum + r.rating, 0) /
@@ -40,9 +48,14 @@ export default async function SchoolPage({ params }: Props) {
       {/* Header */}
       <div className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-6 py-4">
-          <Link href="/" className="text-sm text-blue-600 hover:underline">
-            ← Back to map
-          </Link>
+          <div className="flex items-center justify-between">
+            <Link href="/" className="text-sm text-blue-600 hover:underline">
+              ← Back to map
+            </Link>
+            <Link href={`/schools/${id}/edit`} className="text-sm text-gray-500 hover:text-gray-700">
+              Suggest an edit
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -90,17 +103,17 @@ export default async function SchoolPage({ params }: Props) {
                 <p className="text-sm text-gray-700">{school.phone}</p>
               </div>
             )}
-            {school.email && (
+            {safeEmail && (
               <div>
                 <p className="text-xs text-gray-400 uppercase tracking-wide">Email</p>
-                <a href={`mailto:${school.email}`} className="text-sm text-blue-600 hover:underline">
-                  {school.email}
+                <a href={`mailto:${safeEmail}`} className="text-sm text-blue-600 hover:underline">
+                  {safeEmail}
                 </a>
               </div>
             )}
-            {school.website && (
+            {safeWebsite && (
               <a
-                href={school.website}
+                href={safeWebsite}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block text-sm text-blue-600 hover:underline"

@@ -11,7 +11,12 @@ export default async function Navbar() {
       <Link href="/" className="font-semibold text-gray-900 hover:text-blue-600 transition-colors">
         Open Flight Schools
       </Link>
-      <NavbarAuth user={user} />
+      <div className="flex items-center gap-4">
+        <Link href="/contribute" className="text-sm text-gray-600 hover:text-gray-900">
+          Add a school
+        </Link>
+        <NavbarAuth user={user} />
+      </div>
     </nav>
   );
 }
