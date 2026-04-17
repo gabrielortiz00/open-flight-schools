@@ -106,7 +106,9 @@ export default function SchoolMap() {
     setSearching(true);
     setSearchError(false);
     try {
-      const encoded = encodeURIComponent(q);
+      const isAirportId = /^[A-Z0-9]{2,5}$/.test(q.toUpperCase());
+      const query = isAirportId ? `${q.toUpperCase()} airport` : q;
+      const encoded = encodeURIComponent(query);
       const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
       const res = await fetch(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${encoded}.json?access_token=${token}&country=US&types=place,locality,district,region,poi&limit=1`
