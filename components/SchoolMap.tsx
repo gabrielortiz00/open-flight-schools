@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Map, { MapRef, Marker, Popup } from "react-map-gl/mapbox";
 import type { School } from "@/types/school";
-import "mapbox-gl/dist/mapbox-gl.css";
 
 export default function SchoolMap() {
   const mapRef = useRef<MapRef>(null);
@@ -32,7 +31,7 @@ export default function SchoolMap() {
   }, []);
 
   return (
-    <div className="w-full h-screen relative">
+    <div className="w-full flex-1 min-h-0 relative">
       {loading && (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-white px-4 py-2 rounded shadow text-sm text-gray-600">
           Loading schools...
