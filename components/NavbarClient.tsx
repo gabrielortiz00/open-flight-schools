@@ -43,7 +43,14 @@ export default function NavbarClient({ user, isAdmin }: Props) {
 
   const authSection = user ? (
     <div className="flex items-center gap-4 px-3 py-3 md:py-0 md:px-0">
-      <span className="text-xs text-[#A8DADC]/60 hidden sm:block truncate max-w-[160px]">{user.email}</span>
+      <Link href="/profile" onClick={() => setOpen(false)}
+        className="text-xs text-[#A8DADC]/60 hover:text-[#A8DADC] hidden sm:block truncate max-w-[160px] transition-colors">
+        {user.email}
+      </Link>
+      <Link href="/profile" onClick={() => setOpen(false)}
+        className="text-sm text-[#A8DADC]/80 hover:text-[#F1FAEE] transition-colors sm:hidden">
+        My submissions
+      </Link>
       <button onClick={handleSignOut}
         className="text-sm text-[#A8DADC]/80 hover:text-[#F1FAEE] transition-colors">
         Sign out
