@@ -109,7 +109,7 @@ export default function SchoolMap() {
       const encoded = encodeURIComponent(q);
       const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
       const res = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encoded}.json?access_token=${token}&country=US&types=place,locality,district,region,airport&limit=1`
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encoded}.json?access_token=${token}&country=US&types=place,locality,district,region,poi&limit=1`
       );
       const json = await res.json();
       const feature = json.features?.[0];
