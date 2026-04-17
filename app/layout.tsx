@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | Open Flight Schools",
   },
   description: "Find and compare flight schools across the United States. Community-maintained directory of Part 61 and Part 141 schools.",
-  metadataBase: new URL("https://openflightschools.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"),
   openGraph: {
     siteName: "Open Flight Schools",
     type: "website",
