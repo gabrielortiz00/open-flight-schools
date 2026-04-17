@@ -31,6 +31,7 @@
 CLAUDE.md
 LOG.md
 .claude/
+security-audit-openflightschools.md
 
 # debug
 npm-debug.log*

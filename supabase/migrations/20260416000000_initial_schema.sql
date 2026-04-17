@@ -140,9 +140,8 @@ create policy "users can read own profile"
   on public.profiles for select
   using (auth.uid() = id);
 
-create policy "users can update own profile"
-  on public.profiles for update
-  using (auth.uid() = id);
+-- UPDATE policy intentionally omitted: no profile editing UI exists, and an
+-- unrestricted UPDATE would allow role self-promotion to admin (privilege escalation).
 
 -- schools: anyone can read published schools
 create policy "anyone can read published schools"

@@ -89,10 +89,10 @@ Living document. Steps and priorities will shift as the project evolves.
 Things to validate and build before scaling to 150–250 schools.
 
 ### Bugs / In-Progress
-- [ ] Google OAuth — session not persisting after redirect (fix pushed, pending propagation)
+- [x] Google OAuth — session not persisting after redirect (fix pushed, pending propagation)
 
 ### Features needed at scale (don't matter at 30 schools, critical at 200)
-- [ ] City / airport search — search by city name or FAA/ICAO identifier
+- [x] City / airport search — search by city name or FAA/ICAO identifier
 - [ ] "Near me" radius search on map
 - [ ] Sorting on browse page — by rating, distance, cert type
 - [ ] Pagination on browse page (will break without it at 200+ schools)
@@ -105,6 +105,31 @@ Things to validate and build before scaling to 150–250 schools.
 ### Data
 - [ ] Bulk insert tooling — CSV → SQL script to seed metro areas efficiently
 - [ ] Cover large US metros (NYC, LA, Chicago, Dallas, Houston, Miami, Atlanta, Phoenix, Seattle, Denver, Boston, SF, Las Vegas, Orlando) — target 150–250 schools
+
+---
+
+## Before Expanding to 200+ Schools
+
+Schema and feature decisions that are hard or painful to change once schools, URLs, and reviews accumulate.
+
+### 🔴 Do first (breaking/risky to change later)
+
+- [x] **Write migration to sync production schema** — `airport_id` was added manually to the DB; the migration file doesn't have it. Also fixes F-05 from security audit (vulnerable RLS UPDATE policy still in migration file). One new migration captures both.
+- [ ] **Add `slug` column to `schools`** — SEO-friendly URLs (`/schools/journeys-aviation-boulder-co`) instead of UUID paths. Breaking URL change if done after traffic/inbound links exist.
+- [ ] **Add `display_name` to `profiles`** — reviews currently show no reviewer identity. Needs to exist before reviews accumulate; backfilling is possible but messy.
+
+### 🟡 Do before data import push
+
+- [ ] **Add avg_rating view or denormalized column** — required for sort-by-rating on browse page. A Postgres view over `reviews` is clean; a trigger-updated column on `schools` is faster at scale.
+- [ ] **Move cert filtering to DB** — `/api/schools` currently fetches all schools and filters certs in JavaScript. Fine at 200 schools, wrong pattern; move to a DB-side filter before the import push.
+- [ ] **Add `updated_at` to `pricing` rows** — pricing changes frequently; no staleness signal right now erodes user trust over time.
+
+### 🔒 Security (from audit)
+
+- [x] **Fix migration file** — remove/replace vulnerable `profiles` UPDATE policy (see F-01/F-05 in `security-audit-openflightschools.md`). Covered by the migration sync task above.
+- [ ] **Add rate limiting to `/api/admin/*`** — currently has no limits; low priority since admin role is required, but easy defense-in-depth.
+- [ ] **Add security headers to `next.config.ts`** — `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`. Quick win, low risk.
+- [ ] **Strengthen middleware auth** — add centralized `/admin` route protection in middleware as a safety net for future routes.
 
 ---
 
